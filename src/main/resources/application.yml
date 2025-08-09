@@ -1,1 +1,14 @@
-spring.application.name=colegio-cursos-ms
+spring:
+    application:
+        name: colegio-cursos-ms
+    r2dbc:
+        url: r2dbc:mysql://mysql-container:3390/cursos
+        username: root-auth
+        password: 12345
+    kafka:
+        producer:
+            bootstrap-servers: kafka:9092
+        topics:
+            welcome: welcome-topic
+server:
+    port: 8080

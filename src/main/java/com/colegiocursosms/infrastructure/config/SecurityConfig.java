@@ -1,4 +1,4 @@
-package com.authms.infrastructure.config;
+package com.colegiocursosms.infrastructure.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -34,8 +34,7 @@ public class SecurityConfig {
                   .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                   .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                   .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/api/auth/login").permitAll()
-                        .pathMatchers("/api/auth/register").permitAll()
+                        .pathMatchers("/api/courses").permitAll()
                         .anyExchange().authenticated()
                   )
                   .build();
