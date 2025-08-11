@@ -2,7 +2,7 @@ spring:
     application:
         name: colegio-cursos-ms
     r2dbc:
-        url: r2dbc:mysql://mysql-container:3390/cursos
+        url: r2dbc:mysql://mysql-container:3390/courses
         username: root-auth
         password: 12345
     kafka:
