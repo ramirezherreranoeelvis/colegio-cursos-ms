@@ -36,9 +36,9 @@ public class SecurityConfig {
                   .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                   .authorizeExchange(exchanges -> exchanges
                         .pathMatchers(HttpMethod.GET, "/api/courses", "/api/courses/**").permitAll()
-                        .pathMatchers("/api/courses").permitAll()
-                        .pathMatchers("/api/courses/register").permitAll()
-                        .pathMatchers("/api/courses/program").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/courses/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/classrooms", "/api/classrooms/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/classrooms/**").permitAll()
                         .anyExchange().authenticated()
                   )
                   .build();

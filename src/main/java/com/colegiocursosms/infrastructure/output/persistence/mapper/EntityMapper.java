@@ -1,12 +1,17 @@
 package com.colegiocursosms.infrastructure.output.persistence.mapper;
 
+import com.colegiocursosms.domain.Classroom;
 import com.colegiocursosms.domain.Course;
+import com.colegiocursosms.infrastructure.output.persistence.entity.ClassRoomEntity;
 import com.colegiocursosms.infrastructure.output.persistence.entity.CourseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EntityMapper {
 
+      /**
+       * Convierte un objeto de dominio Course a su correspondiente entidad de persistencia.
+       */
       public CourseEntity toEntity(Course courseDomain) {
             return CourseEntity.builder()
                   .id(courseDomain.getId())
@@ -15,6 +20,21 @@ public class EntityMapper {
                   .createdDate(courseDomain.getCreatedDate())
                   .lastModifiedBy(courseDomain.getLastModifiedBy())
                   .lastModifiedDate(courseDomain.getLastModifiedDate())
+                  .build();
+      }
+
+      /**
+       * Convierte un objeto de dominio Classroom a su correspondiente entidad de persistencia.
+       */
+      public ClassRoomEntity toEntity(Classroom classroomDomain) {
+            return ClassRoomEntity.builder()
+                  .id(classroomDomain.getId())
+                  .number(classroomDomain.getNumber())
+                  .floor(classroomDomain.getFloor())
+                  .createdBy(classroomDomain.getCreatedBy())
+                  .createdDate(classroomDomain.getCreatedDate())
+                  .lastModifiedBy(classroomDomain.getLastModifiedBy())
+                  .lastModifiedDate(classroomDomain.getLastModifiedDate())
                   .build();
       }
 }
