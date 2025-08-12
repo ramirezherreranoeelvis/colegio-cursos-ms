@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 
 @Log4j2
 @RequiredArgsConstructor
-@Component
+//@Component
 public class KafkaNotificationService {
 
-      @KafkaListener(groupId = "group-0", topics = "${spring.kafka.topics.welcome}", containerFactory = "validMessageContainerFactory")
+//      @KafkaListener(groupId = "group-0", topics = "${spring.kafka.topics.welcome}", containerFactory = "validMessageContainerFactory")
       public void listener2(String message) {
             log.info("Listener 1 ::: Resibiendo un mensaje {}", message);
       }

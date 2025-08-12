@@ -1,4 +1,4 @@
-package com.authms.infrastructure.output.persistence.entity;
+package com.colegiocursosms.infrastructure.output.persistence.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.authms.domain;
+package com.colegiocursosms.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

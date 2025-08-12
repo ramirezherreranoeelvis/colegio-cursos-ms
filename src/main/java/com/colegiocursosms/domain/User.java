@@ -15,5 +15,4 @@ public class User {
       private String name;
       private String surnamePaternal;
       private String surnameMaternal;
-      private User[] childrens;
 }

@@ -1,5 +1,5 @@
 -- Creamos la tabla para los Cursos (Courses)
-CREATE TABLE Courses (
+CREATE TABLE courses (
     id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE
 );
@@ -7,7 +7,7 @@ CREATE TABLE Courses (
 ---
 
 -- Creamos la tabla para las Aulas (Classrooms)
-CREATE TABLE Classrooms (
+CREATE TABLE classrooms (
     id VARCHAR(255) PRIMARY KEY,
     number INT,
     floor INT
@@ -16,7 +16,7 @@ CREATE TABLE Classrooms (
 ---
 
 -- Creamos la tabla para los Horarios (Schedules)
-CREATE TABLE Schedules (
+CREATE TABLE schedules (
     id VARCHAR(255) PRIMARY KEY,
     day ENUM('LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES') NOT NULL,
     startTime TIME NOT NULL,
