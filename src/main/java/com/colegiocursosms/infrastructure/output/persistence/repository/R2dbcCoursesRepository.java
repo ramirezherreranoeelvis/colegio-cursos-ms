@@ -30,6 +30,7 @@ public class R2dbcCoursesRepository implements ICourseRepository {
                   courseDomain.setId(UUID.randomUUID().toString());
             }
             var courseEntity = entityMapper.toEntity(courseDomain);
+            courseEntity.markNew();
             return coursesRepository.save(courseEntity)
                   .flatMap(domainMapper::toDomain);
       }

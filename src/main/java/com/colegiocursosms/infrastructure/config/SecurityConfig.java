@@ -3,6 +3,7 @@ package com.colegiocursosms.infrastructure.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -34,11 +35,15 @@ public class SecurityConfig {
                   .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                   .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                   .authorizeExchange(exchanges -> exchanges
+                        .pathMatchers(HttpMethod.GET, "/api/courses", "/api/courses/**").permitAll()
                         .pathMatchers("/api/courses").permitAll()
+                        .pathMatchers("/api/courses/register").permitAll()
+                        .pathMatchers("/api/courses/program").permitAll()
                         .anyExchange().authenticated()
                   )
                   .build();
       }
+
       @Bean
       public CorsConfigurationSource corsConfigurationSource() {
             CorsConfiguration configuration = new CorsConfiguration();

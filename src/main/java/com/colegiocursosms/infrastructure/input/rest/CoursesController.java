@@ -3,13 +3,14 @@ package com.colegiocursosms.infrastructure.input.rest;
 import com.colegiocursosms.application.port.input.IFindCoursesUseCase;
 import com.colegiocursosms.application.port.input.IRegisterCoursesUseCase;
 import com.colegiocursosms.infrastructure.input.rest.dto.CourseResponse;
+import com.colegiocursosms.infrastructure.input.rest.dto.RegisterCourseRequest;
 import com.colegiocursosms.infrastructure.input.rest.mapper.CourseMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -44,6 +45,21 @@ class CoursesController {
                         .toList()
                   )
                   .map(ResponseEntity::ok);
+      }
+
+      /**
+       * Maneja la petición POST para registrar un nuevo curso.
+       * Recibe un CourseRequest, lo valida, lo convierte a un objeto de dominio,
+       * lo pasa al caso de uso para ser procesado y guardado,
+       * y finalmente devuelve el curso creado con un estado HTTP 201.
+       */
+      @PostMapping("/register")
+      public Mono<ResponseEntity<CourseResponse>> registerCourse(@Valid @RequestBody RegisterCourseRequest courseRequest) {
+            return Mono.just(courseRequest)
+                  .map(courseMapper::toDomain)
+                  .flatMap(registerCoursesUseCase::registerCourse)
+                  .map(courseMapper::mapToResponse)
+                  .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response));
       }
 
 }
