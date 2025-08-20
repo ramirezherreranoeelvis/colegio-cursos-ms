@@ -48,6 +48,7 @@ public class EntityMapper {
                   .enrolled(enrollmentDomain.getEnrolled())
                   .grade(enrollmentDomain.getGrade())
                   .year(enrollmentDomain.getYear())
+
                   .build();
       }
 
@@ -63,6 +64,10 @@ public class EntityMapper {
                   .classroomNumber(domain.getClassroomNumber())
                   .classroomFloor(domain.getClassroomFloor())
                   .portada(domain.getPortada())
+                  .createdBy(domain.getCreatedBy())
+                  .createdDate(domain.getCreatedDate())
+                  .lastModifiedBy(domain.getLastModifiedBy())
+                  .lastModifiedDate(domain.getLastModifiedDate())
                   .build();
       }
 }

@@ -1,18 +1,17 @@
 package com.colegiocursosms.domain;
 
 import com.colegiocursosms.domain.enums.DayOfWeek;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalTime;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseSchedule {
+public class CourseSchedule extends Auditable {
 
       private String id;
       private String code;

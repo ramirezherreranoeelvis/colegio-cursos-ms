@@ -74,6 +74,10 @@ public class DomainMapper {
                         .classroomNumber(entity.getClassroomNumber())
                         .classroomFloor(entity.getClassroomFloor())
                         .portada(entity.getPortada())
+                        .createdBy(entity.getCreatedBy())
+                        .createdDate(entity.getCreatedDate())
+                        .lastModifiedBy(entity.getLastModifiedBy())
+                        .lastModifiedDate(entity.getLastModifiedDate())
                         .build()
             );
       }

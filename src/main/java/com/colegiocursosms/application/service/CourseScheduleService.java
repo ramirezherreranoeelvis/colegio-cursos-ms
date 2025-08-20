@@ -5,7 +5,9 @@ import com.colegiocursosms.application.port.input.courseschedule.IFindCourseSche
 import com.colegiocursosms.application.port.input.courseschedule.IRegisterCoursesScheduleUseCase;
 import com.colegiocursosms.application.port.output.ICourseScheduleRepository;
 import com.colegiocursosms.domain.CourseSchedule;
+import com.colegiocursosms.domain.enums.AuditActionType;
 import com.colegiocursosms.domain.exception.CourseScheduleCodeAlreadyExistsException;
+import com.colegiocursosms.infrastructure.config.AuditingConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,10 @@ public class CourseScheduleService implements IRegisterCoursesScheduleUseCase, I
                   )))
                   .then(Mono.defer(() -> {
                         log.info("Código disponible. Guardando horario...");
-                        return scheduleRepository.save(courseSchedule);
+
+                        AuditingConfig.setAuditor(AuditActionType.SELF_REGISTRATION.getValue());
+                        return scheduleRepository.save(courseSchedule)
+                              .doFinally(signalType -> AuditingConfig.clearAuditor());
                   }));
       }
 
