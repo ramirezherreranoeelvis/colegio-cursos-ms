@@ -1,7 +1,9 @@
 package com.colegiocursosms.domain.mapper;
 
 import com.colegiocursosms.domain.Course;
+import com.colegiocursosms.domain.Enrollment;
 import com.colegiocursosms.infrastructure.output.persistence.entity.CourseEntity;
+import com.colegiocursosms.infrastructure.output.persistence.entity.EnrollmentEntity;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import com.colegiocursosms.domain.Classroom;
@@ -39,6 +41,20 @@ public class DomainMapper {
                         .createdDate(classroomEntity.getCreatedDate())
                         .lastModifiedBy(classroomEntity.getLastModifiedBy())
                         .lastModifiedDate(classroomEntity.getLastModifiedDate())
+                        .build()
+            );
+      }
+
+      /**
+       * Convierte una entidad de persistencia EnrollmentEntity a un objeto de dominio Enrollment.
+       */
+      public Mono<Enrollment> toDomain(EnrollmentEntity enrollmentEntity) {
+            return Mono.just(
+                  Enrollment.builder()
+                        .id(enrollmentEntity.getId())
+                        .enrolled(enrollmentEntity.getEnrolled())
+                        .grade(enrollmentEntity.getGrade())
+                        .year(enrollmentEntity.getYear())
                         .build()
             );
       }
