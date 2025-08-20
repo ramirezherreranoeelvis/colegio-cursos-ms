@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
  * (creación o actualización de la réplica local).
  */
 public interface IProcessEnrollmentUseCase {
-
+      Mono<Enrollment> processEnrollmentEvent(Enrollment enrollment);
       Mono<Enrollment> saveEnrollment(Enrollment enrollment);
       Mono<Enrollment> updateEnrollment(Enrollment enrollment);
 

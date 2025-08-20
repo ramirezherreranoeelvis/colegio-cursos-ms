@@ -10,6 +10,7 @@ spring:
             bootstrap-servers: localhost:9092
         topics:
             welcome: welcome-topic
+            enrollments-created: enrollments.created.v1
 server:
     port: 8080
 

@@ -1,55 +1,42 @@
 package com.colegiocursosms.infrastructure.config;
 
+import com.colegiocursosms.infrastructure.input.kafka.dto.EnrollmentCreatedEvent;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.listener.RecordInterceptor;
+import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.HashMap;
 
-@Log4j2
 @RequiredArgsConstructor
-//@Configuration
+@Configuration
 public class KafkaConsumerConfig {
 
       private final KafkaProperties kafkaProperties;
 
       @Bean
-      public ConsumerFactory<String, String> consumerFactory() {
+      public ConsumerFactory<String, EnrollmentCreatedEvent> enrollmentConsumerFactory() {
             var configs = new HashMap<String, Object>();
-            configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
-            configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-            configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-            return new DefaultKafkaConsumerFactory<>(configs);
+            configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+            configs.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaProperties.getConsumer().getGroupId());
+
+            var deserializer = new ErrorHandlingDeserializer<>(new JsonDeserializer<>(EnrollmentCreatedEvent.class, false));
+
+            return new DefaultKafkaConsumerFactory<>(configs, new StringDeserializer(), deserializer);
       }
 
       @Bean
-      public ConcurrentKafkaListenerContainerFactory<String, String> validMessageContainerFactory(ConsumerFactory<String, String> consumerFactory) {
-            var factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
-            factory.setConsumerFactory(consumerFactory());
-            factory.setRecordInterceptor(validMessage());
+      public ConcurrentKafkaListenerContainerFactory<String, EnrollmentCreatedEvent> enrollmentContainerFactory(
+            ConsumerFactory<String, EnrollmentCreatedEvent> enrollmentConsumerFactory) {
+            var factory = new ConcurrentKafkaListenerContainerFactory<String, EnrollmentCreatedEvent>();
+            factory.setConsumerFactory(enrollmentConsumerFactory);
             return factory;
       }
-
-
-      private RecordInterceptor<String, String> validMessage() {
-            return ((record, consumer) -> {
-                  if (record.value().contains("valid")) {
-                        log.info("Contiene valid");
-                        return record;
-                  }
-                  return record;
-            });
-      }
-
 }

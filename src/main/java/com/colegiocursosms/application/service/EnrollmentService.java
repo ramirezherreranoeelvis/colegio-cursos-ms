@@ -26,16 +26,40 @@ public class EnrollmentService implements IProcessEnrollmentUseCase, IFindEnroll
       private final IEnrollmentRepository enrollmentRepository;
 
       /**
+       * Punto de entrada para el listener de Kafka.
+       * Contiene la lógica de "upsert": crea si no existe, actualiza si ya existe.
+       */
+      @Override
+      public Mono<Enrollment> processEnrollmentEvent(Enrollment enrollment) {
+            log.info("Procesando evento para la matrícula con ID: {}", enrollment.getId());
+            return enrollmentRepository.existsById(enrollment.getId())
+                  .flatMap(exists -> {
+                        if (Boolean.TRUE.equals(exists)) {
+                              log.info("La matrícula {} ya existe. Actualizando réplica...", enrollment.getId());
+                              return enrollmentRepository.update(enrollment);
+                        } else {
+                              log.info("La matrícula {} es nueva. Insertando réplica...", enrollment.getId());
+                              return enrollmentRepository.save(enrollment); // 'save' es nuestro 'insert'
+                        }
+                  });
+      }
+
+      /**
        * Guarda (inserta) una nueva matrícula, solo si no existe una para el mismo grado y año.
        */
       @Override
       public Mono<Enrollment> saveEnrollment(Enrollment enrollment) {
             //... lógica de validación ...
-            return enrollmentRepository.existsByGradeAndYear(enrollment.getGrade(), enrollment.getYear()).filter(Boolean.FALSE::equals).switchIfEmpty(Mono.error(new EnrollmentAlreadyExistsException("Ya existe una matrícula para el grado " + enrollment.getGrade() + " y el año " + enrollment.getYear()))).then(Mono.defer(() -> {
-                  log.info("Insertando nueva matrícula para el grado {}", enrollment.getGrade());
-                  // Llama al método 'save' que ahora es solo para insertar
-                  return enrollmentRepository.save(enrollment);
-            }));
+            return enrollmentRepository.existsByGradeAndYear(enrollment.getGrade(), enrollment.getYear())
+                  .filter(Boolean.FALSE::equals)
+                  .switchIfEmpty(Mono.error(new EnrollmentAlreadyExistsException(
+                        "Ya existe una matrícula para el grado " + enrollment.getGrade() + " y el año " + enrollment.getYear()
+                  )))
+                  .then(Mono.defer(() -> {
+                        log.info("Insertando nueva matrícula para el grado {}", enrollment.getGrade());
+                        // Llama al método 'save' que ahora es solo para insertar
+                        return enrollmentRepository.save(enrollment);
+                  }));
       }
 
       /**
