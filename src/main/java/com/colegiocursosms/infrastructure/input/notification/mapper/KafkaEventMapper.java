@@ -1,7 +1,7 @@
-package com.colegiocursosms.infrastructure.input.kafka.mapper;
+package com.colegiocursosms.infrastructure.input.notification.mapper;
 
 import com.colegiocursosms.domain.Enrollment;
-import com.colegiocursosms.infrastructure.input.kafka.dto.EnrollmentCreatedEvent;
+import com.colegiocursosms.infrastructure.input.notification.dto.EnrollmentCreatedEvent;
 import org.springframework.stereotype.Component;
 
 @Component

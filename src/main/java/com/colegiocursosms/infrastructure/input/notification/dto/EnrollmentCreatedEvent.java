@@ -1,4 +1,4 @@
-package com.colegiocursosms.infrastructure.input.kafka.dto;
+package com.colegiocursosms.infrastructure.input.notification.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

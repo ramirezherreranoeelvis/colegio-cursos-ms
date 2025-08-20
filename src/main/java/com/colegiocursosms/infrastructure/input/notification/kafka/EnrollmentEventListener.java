@@ -1,6 +1,6 @@
-package com.colegiocursosms.infrastructure.input.notification;
+package com.colegiocursosms.infrastructure.input.notification.kafka;
 
-import com.colegiocursosms.application.port.input.IProcessEnrollmentUseCase;
+import com.colegiocursosms.application.port.input.enrollment.IProcessEnrollmentUseCase;
 import com.colegiocursosms.infrastructure.input.notification.dto.EnrollmentCreatedEvent;
 import com.colegiocursosms.infrastructure.input.notification.mapper.KafkaEventMapper;
 import lombok.RequiredArgsConstructor;

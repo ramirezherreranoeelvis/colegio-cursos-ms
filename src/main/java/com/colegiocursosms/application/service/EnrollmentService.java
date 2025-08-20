@@ -1,7 +1,7 @@
 package com.colegiocursosms.application.service;
 
-import com.colegiocursosms.application.port.input.IFindEnrollmentsUseCase;
-import com.colegiocursosms.application.port.input.IProcessEnrollmentUseCase;
+import com.colegiocursosms.application.port.input.enrollment.IFindEnrollmentsUseCase;
+import com.colegiocursosms.application.port.input.enrollment.IProcessEnrollmentUseCase;
 import com.colegiocursosms.application.port.output.IEnrollmentRepository;
 import com.colegiocursosms.domain.Enrollment;
 import com.colegiocursosms.domain.exception.EnrollmentAlreadyExistsException;

@@ -1,9 +1,9 @@
 package com.colegiocursosms.application.service;
 
-import com.colegiocursosms.application.port.input.IFindCoursesUseCase;
-import com.colegiocursosms.application.port.input.IRegisterCoursesUseCase;
+import com.colegiocursosms.application.port.input.course.IFindCoursesUseCase;
+import com.colegiocursosms.application.port.input.course.IRegisterCoursesUseCase;
 import com.colegiocursosms.application.port.output.ICourseRepository;
-import com.colegiocursosms.domain.AuditActionType;
+import com.colegiocursosms.domain.enums.AuditActionType;
 import com.colegiocursosms.domain.Course;
 import com.colegiocursosms.domain.exception.CourseNameAlreadyExistsException;
 import com.colegiocursosms.infrastructure.config.AuditingConfig;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.UUID;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -48,6 +47,16 @@ public class CoursesService implements IRegisterCoursesUseCase, IFindCoursesUseC
       @Override
       public Mono<List<Course>> findAll() {
             return this.courseRepository.findAll();
+      }
+
+      /**
+       * Implementación del caso de uso para buscar un curso por su nombre.
+       * Delega la llamada directamente al repositorio.
+       */
+      @Override
+      public Mono<Course> findByName(String name) {
+            log.info("Buscando curso por nombre: {}", name);
+            return courseRepository.findByName(name);
       }
 
 }

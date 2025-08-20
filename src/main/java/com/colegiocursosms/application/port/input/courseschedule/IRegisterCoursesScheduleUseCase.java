@@ -1,8 +1,9 @@
-package com.colegiocursosms.application.port.input.course;
+package com.colegiocursosms.application.port.input.courseschedule;
 
-import com.colegiocursosms.domain.Course;
+import com.colegiocursosms.domain.CourseSchedule;
 import reactor.core.publisher.Mono;
-public interface IRegisterCoursesUseCase {
 
-     Mono<Course> registerCourse (Course course);
+public interface IRegisterCoursesScheduleUseCase {
+
+     Mono<CourseSchedule> registerCourse (CourseSchedule course);
 }

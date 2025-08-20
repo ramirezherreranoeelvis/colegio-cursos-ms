@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import com.colegiocursosms.domain.Classroom;
 import com.colegiocursosms.infrastructure.output.persistence.entity.ClassRoomEntity;
+import com.colegiocursosms.domain.CourseSchedule;
+import com.colegiocursosms.infrastructure.output.persistence.entity.CourseScheduleEntity;
 
 @Component
 public class DomainMapper {
@@ -55,6 +57,23 @@ public class DomainMapper {
                         .enrolled(enrollmentEntity.getEnrolled())
                         .grade(enrollmentEntity.getGrade())
                         .year(enrollmentEntity.getYear())
+                        .build()
+            );
+      }
+
+      public Mono<CourseSchedule> toDomain(CourseScheduleEntity entity) {
+            return Mono.just(
+                  CourseSchedule.builder()
+                        .id(entity.getId())
+                        .code(entity.getCode())
+                        .enrollmentId(entity.getEnrollmentId())
+                        .courseId(entity.getCourseId())
+                        .day(entity.getDay())
+                        .startTime(entity.getStartTime())
+                        .endTime(entity.getEndTime())
+                        .classroomNumber(entity.getClassroomNumber())
+                        .classroomFloor(entity.getClassroomFloor())
+                        .portada(entity.getPortada())
                         .build()
             );
       }

@@ -1,4 +1,4 @@
-package com.colegiocursosms.domain;
+package com.colegiocursosms.domain.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

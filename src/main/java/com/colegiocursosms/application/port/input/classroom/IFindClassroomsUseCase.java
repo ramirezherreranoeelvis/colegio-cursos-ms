@@ -1,4 +1,4 @@
-package com.colegiocursosms.application.port.input;
+package com.colegiocursosms.application.port.input.classroom;
 
 import com.colegiocursosms.domain.Classroom;
 import reactor.core.publisher.Mono;

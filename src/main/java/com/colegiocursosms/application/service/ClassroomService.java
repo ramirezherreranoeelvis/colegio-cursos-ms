@@ -1,9 +1,9 @@
 package com.colegiocursosms.application.service;
 
-import com.colegiocursosms.application.port.input.IFindClassroomsUseCase;
-import com.colegiocursosms.application.port.input.IRegisterClassroomUseCase;
+import com.colegiocursosms.application.port.input.classroom.IFindClassroomsUseCase;
+import com.colegiocursosms.application.port.input.classroom.IRegisterClassroomUseCase;
 import com.colegiocursosms.application.port.output.IClassroomRepository;
-import com.colegiocursosms.domain.AuditActionType;
+import com.colegiocursosms.domain.enums.AuditActionType;
 import com.colegiocursosms.domain.Classroom;
 import com.colegiocursosms.domain.exception.ClassroomNumberAlreadyExistsException;
 import com.colegiocursosms.infrastructure.config.AuditingConfig;

@@ -1,6 +1,6 @@
 package com.colegiocursosms.infrastructure.config;
 
-import com.colegiocursosms.domain.AuditActionType;
+import com.colegiocursosms.domain.enums.AuditActionType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.ReactiveAuditorAware;

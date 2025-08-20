@@ -1,7 +1,7 @@
 package com.colegiocursosms.infrastructure.input.rest;
 
-import com.colegiocursosms.application.port.input.IFindCoursesUseCase;
-import com.colegiocursosms.application.port.input.IRegisterCoursesUseCase;
+import com.colegiocursosms.application.port.input.course.IFindCoursesUseCase;
+import com.colegiocursosms.application.port.input.course.IRegisterCoursesUseCase;
 import com.colegiocursosms.infrastructure.input.rest.dto.CourseResponse;
 import com.colegiocursosms.infrastructure.input.rest.dto.RegisterCourseRequest;
 import com.colegiocursosms.infrastructure.input.rest.mapper.CourseMapper;
