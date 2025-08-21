@@ -48,7 +48,7 @@ public class EntityMapper {
                   .enrolled(enrollmentDomain.getEnrolled())
                   .grade(enrollmentDomain.getGrade())
                   .year(enrollmentDomain.getYear())
-
+                  .periodType(enrollmentDomain.getPeriodType())
                   .build();
       }
 

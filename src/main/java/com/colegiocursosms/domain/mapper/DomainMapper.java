@@ -57,6 +57,7 @@ public class DomainMapper {
                         .enrolled(enrollmentEntity.getEnrolled())
                         .grade(enrollmentEntity.getGrade())
                         .year(enrollmentEntity.getYear())
+                        .periodType(enrollmentEntity.getPeriodType())
                         .build()
             );
       }

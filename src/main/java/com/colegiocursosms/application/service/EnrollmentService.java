@@ -68,7 +68,9 @@ public class EnrollmentService implements IProcessEnrollmentUseCase, IFindEnroll
       @Override
       public Mono<Enrollment> updateEnrollment(Enrollment enrollment) {
             log.info("Validando si la matrícula con ID {} existe antes de actualizar", enrollment.getId());
-            return enrollmentRepository.findById(enrollment.getId()).switchIfEmpty(Mono.error(new EnrollmentNotFoundException("No se encontró la matrícula con ID " + enrollment.getId() + " para actualizar."))).flatMap(existingEnrollment -> {
+            return enrollmentRepository.findById(enrollment.getId())
+                  .switchIfEmpty(Mono.error(new EnrollmentNotFoundException("No se encontró la matrícula con ID " + enrollment.getId() + " para actualizar.")))
+                  .flatMap(existingEnrollment -> {
                   log.info("Actualizando matrícula con ID {}", enrollment.getId());
                   return enrollmentRepository.update(enrollment);
             });

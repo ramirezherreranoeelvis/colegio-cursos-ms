@@ -1,5 +1,6 @@
 package com.colegiocursosms.infrastructure.input.notification.dto;
 
+import com.colegiocursosms.domain.enums.PeriodType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +19,5 @@ public class EnrollmentCreatedEvent {
       private Integer enrolled;
       private String grade;
       private Year year;
+      private PeriodType periodType;
 }

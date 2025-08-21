@@ -1,5 +1,6 @@
 package com.colegiocursosms.domain;
 
+import com.colegiocursosms.domain.enums.PeriodType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,6 @@ public class Enrollment {
       private Integer enrolled;
       private String grade;
       private Year year;
+      private PeriodType periodType;
 
 }

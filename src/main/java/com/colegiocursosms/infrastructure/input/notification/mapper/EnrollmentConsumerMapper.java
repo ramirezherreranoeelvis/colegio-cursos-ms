@@ -13,6 +13,7 @@ public class EnrollmentConsumerMapper {
                   .enrolled(event.getEnrolled())
                   .grade(event.getGrade())
                   .year(event.getYear())
+                  .periodType(event.getPeriodType())
                   .build();
       }
 }

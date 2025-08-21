@@ -1,5 +1,6 @@
 package com.colegiocursosms.infrastructure.output.persistence.entity;
 
+import com.colegiocursosms.domain.enums.PeriodType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +31,9 @@ public class EnrollmentEntity implements Persistable<String> {
 
       @Column("year")
       private Year year;
+
+      @Column("period_type")
+      private PeriodType periodType;
 
       @Transient
       private boolean isNew;
