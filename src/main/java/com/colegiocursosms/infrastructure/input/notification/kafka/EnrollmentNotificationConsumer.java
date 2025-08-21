@@ -22,6 +22,7 @@ public class EnrollmentEventListener {
        * para crear o actualizar la réplica local.
        */
       @KafkaListener(
+            groupId = "enrollment-enrollment",
             topics = "${spring.kafka.topics.enrollments-created}",
             containerFactory = "enrollmentContainerFactory"
       )
