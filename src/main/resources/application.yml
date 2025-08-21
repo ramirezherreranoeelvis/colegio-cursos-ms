@@ -1,17 +1,16 @@
+server:
+    port: ${PORT:8020}
 spring:
     application:
         name: colegio-cursos-ms
     r2dbc:
-        url: r2dbc:mysql://localhost:3390/courses
+        url: r2dbc:mysql://${MYSQL_HOST:localhost:3390}/courses
         username: root-courses
         password: a1s2d3f4g5h6
     kafka:
-        producer:
-            bootstrap-servers: localhost:9092
+        bootstrap-servers: ${KAFKA_HOST:localhost:9092}
         topics:
             courses-scheduled: courses-scheduled
             enrollments-created: enrollments.created.v1
             students-created: students.created.v1
-server:
-    port: 8090
 
