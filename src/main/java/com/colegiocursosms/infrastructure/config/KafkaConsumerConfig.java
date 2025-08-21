@@ -1,8 +1,10 @@
 package com.colegiocursosms.infrastructure.config;
 
 import com.colegiocursosms.infrastructure.input.notification.dto.EnrollmentCreatedEvent;
+import com.colegiocursosms.infrastructure.input.notification.dto.StudentCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -26,10 +28,10 @@ public class KafkaConsumerConfig {
       private final KafkaProperties kafkaProperties;
 
       @Bean
-      public ConsumerFactory<String, EnrollmentCreatedEvent> enrollmentConsumerFactory() {
+      public ConsumerFactory<String, EnrollmentCreatedEvent> consumerFactory() {
             var configs = new HashMap<String, Object>();
             configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
-            configs.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaProperties.getConsumer().getGroupId());
+            configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
             var deserializer = new ErrorHandlingDeserializer<>(new JsonDeserializer<>(EnrollmentCreatedEvent.class, false));
 
@@ -61,4 +63,23 @@ public class KafkaConsumerConfig {
                   return null; // El mensaje es inválido y se descarta. No llegará al listener.
             });
       }
+
+      @Bean
+      public ConsumerFactory<String, StudentCreatedEvent> studentConsumerFactory() {
+            var configs = new HashMap<String, Object>();
+            configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+            configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+
+            var deserializer = new ErrorHandlingDeserializer<>(new JsonDeserializer<>(StudentCreatedEvent.class, false));
+            return new DefaultKafkaConsumerFactory<>(configs, new StringDeserializer(), deserializer);
+      }
+
+      @Bean
+      public ConcurrentKafkaListenerContainerFactory<String, StudentCreatedEvent> studentContainerFactory(
+            ConsumerFactory<String, StudentCreatedEvent> studentConsumerFactory) {
+            var factory = new ConcurrentKafkaListenerContainerFactory<String, StudentCreatedEvent>();
+            factory.setConsumerFactory(studentConsumerFactory);
+            return factory;
+      }
+
 }

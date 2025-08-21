@@ -1,6 +1,6 @@
-package com.colegioenrollmentms.infrastructure.output.persistence.repository.interfaces;
+package com.colegiocursosms.infrastructure.output.persistence.repository.interfaces;
 
-import com.colegioenrollmentms.infrastructure.output.persistence.entity.StudentEntity;
+import com.colegiocursosms.infrastructure.output.persistence.entity.StudentEntity;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 

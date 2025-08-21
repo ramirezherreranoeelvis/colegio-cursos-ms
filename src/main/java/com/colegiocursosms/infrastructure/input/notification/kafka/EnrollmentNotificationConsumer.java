@@ -2,7 +2,7 @@ package com.colegiocursosms.infrastructure.input.notification.kafka;
 
 import com.colegiocursosms.application.port.input.enrollment.IProcessEnrollmentUseCase;
 import com.colegiocursosms.infrastructure.input.notification.dto.EnrollmentCreatedEvent;
-import com.colegiocursosms.infrastructure.input.notification.mapper.KafkaEventMapper;
+import com.colegiocursosms.infrastructure.input.notification.mapper.EnrollmentConsumerMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 @Log4j2
 @Component
 @RequiredArgsConstructor
-public class EnrollmentEventListener {
+public class EnrollmentNotificationConsumer {
 
       private final IProcessEnrollmentUseCase processEnrollmentUseCase;
-      private final KafkaEventMapper kafkaEventMapper;
+      private final EnrollmentConsumerMapper kafkaEventMapper;
 
       /**
        * Escucha el topic de matrículas creadas.

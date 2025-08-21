@@ -1,7 +1,7 @@
-package com.colegioenrollmentms.infrastructure.output.persistence.mapper;
+package com.colegiocursosms.infrastructure.output.persistence.mapper;
 
-import com.colegioenrollmentms.domain.Student;
-import com.colegioenrollmentms.infrastructure.output.persistence.entity.StudentEntity;
+import com.colegiocursosms.domain.Student;
+import com.colegiocursosms.infrastructure.output.persistence.entity.StudentEntity;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -55,4 +55,14 @@ public class R2dbcCoursesRepository implements ICourseRepository {
                   .collectList();
       }
 
+      /**
+       * Busca un curso por su ID.
+       */
+      @Override
+      @Transactional
+      public Mono<Course> findById(String id) {
+            return coursesRepository.findById(id)
+                  .flatMap(domainMapper::toDomain);
+      }
+
 }

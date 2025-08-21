@@ -1,4 +1,4 @@
-package com.colegioenrollmentms.infrastructure.input.notification.dto;
+package com.colegiocursosms.infrastructure.input.notification.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

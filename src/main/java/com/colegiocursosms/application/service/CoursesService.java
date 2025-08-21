@@ -59,4 +59,10 @@ public class CoursesService implements IRegisterCoursesUseCase, IFindCoursesUseC
             return courseRepository.findByName(name);
       }
 
+      @Override
+      public Mono<Course> findById(String id) {
+            log.info("Buscando curso por ID: {}", id);
+            return courseRepository.findById(id);
+      }
+
 }

@@ -1,7 +1,7 @@
-package com.colegioenrollmentms.infrastructure.input.notification.mapper;
+package com.colegiocursosms.infrastructure.input.notification.mapper;
 
-import com.colegioenrollmentms.domain.Student;
-import com.colegioenrollmentms.infrastructure.input.notification.dto.StudentCreatedEvent;
+import com.colegiocursosms.domain.Student;
+import com.colegiocursosms.infrastructure.input.notification.dto.StudentCreatedEvent;
 import org.springframework.stereotype.Component;
 
 @Component

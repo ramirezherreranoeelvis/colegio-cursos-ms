@@ -1,6 +1,6 @@
-package com.colegioenrollmentms.application.port.output;
+package com.colegiocursosms.application.port.output;
 
-import com.colegioenrollmentms.domain.Student;
+import com.colegiocursosms.domain.Student;
 import reactor.core.publisher.Mono;
 
 public interface IStudentRepository {

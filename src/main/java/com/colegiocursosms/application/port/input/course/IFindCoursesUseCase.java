@@ -16,4 +16,6 @@ public interface IFindCoursesUseCase {
        */
       Mono<Course> findByName(String name);
 
+      Mono<Course> findById(String id);
+
 }

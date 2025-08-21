@@ -14,4 +14,6 @@ public interface ICourseRepository {
 
       Mono<List<Course>> findAll();
 
+      Mono<Course> findById(String id);
+
 }

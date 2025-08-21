@@ -1,4 +1,4 @@
-package com.colegioenrollmentms.domain;
+package com.colegiocursosms.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -8,6 +8,7 @@ import com.colegiocursosms.domain.CourseSchedule;
 import com.colegiocursosms.domain.enums.AuditActionType;
 import com.colegiocursosms.domain.exception.CourseScheduleCodeAlreadyExistsException;
 import com.colegiocursosms.infrastructure.config.AuditingConfig;
+import com.colegiocursosms.infrastructure.output.notification.kafka.CourseScheduleNotificationProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,11 @@ import java.util.List;
 public class CourseScheduleService implements IRegisterCoursesScheduleUseCase, IFindCourseSchedulesUseCase {
 
       private final ICourseScheduleRepository scheduleRepository;
+      private final CourseScheduleNotificationProducer notificationProducer;
 
       /**
-       * Programa un nuevo curso, validando que el código no esté duplicado.
+       * Registra un nuevo horario, lo guarda en la base de datos y notifica
+       * el evento a través de Kafka.
        */
       @Override
       public Mono<CourseSchedule> registerCourse(CourseSchedule courseSchedule) {
@@ -37,7 +40,14 @@ public class CourseScheduleService implements IRegisterCoursesScheduleUseCase, I
                         log.info("Código disponible. Guardando horario...");
 
                         AuditingConfig.setAuditor(AuditActionType.SELF_REGISTRATION.getValue());
+
                         return scheduleRepository.save(courseSchedule)
+                              // 2. Añadimos el "efecto secundario" para notificar a Kafka
+                              .doOnSuccess(savedSchedule -> {
+                                    log.info("Horario guardado exitosamente con ID: {}. Enviando evento a Kafka...", savedSchedule.getId());
+                                    // El .subscribe() aquí es crucial para activar el envío
+                                    notificationProducer.sendCourseScheduledEvent(savedSchedule).subscribe();
+                              })
                               .doFinally(signalType -> AuditingConfig.clearAuditor());
                   }));
       }

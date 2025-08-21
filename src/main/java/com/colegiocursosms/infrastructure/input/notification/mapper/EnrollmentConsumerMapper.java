@@ -5,7 +5,7 @@ import com.colegiocursosms.infrastructure.input.notification.dto.EnrollmentCreat
 import org.springframework.stereotype.Component;
 
 @Component
-public class KafkaEventMapper {
+public class EnrollmentConsumerMapper {
 
       public Enrollment toDomain(EnrollmentCreatedEvent event) {
             return Enrollment.builder()

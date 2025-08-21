@@ -62,8 +62,8 @@ public class CourseScheduleEntity extends AuditableEntity implements Persistable
             this.isNew = true;
       }
 
-      public static CourseEntity newCourseSchedule() {
-            return CourseEntity.builder()
+      public static CourseScheduleEntity  newCourseSchedule() {
+            return CourseScheduleEntity .builder()
                   .id(UUID.randomUUID().toString())
                   .isNew(true)
                   .build();

@@ -1,10 +1,10 @@
-package com.colegioenrollmentms.infrastructure.output.persistence.repository;
+package com.colegiocursosms.infrastructure.output.persistence.repository;
 
-import com.colegioenrollmentms.application.port.output.IStudentRepository;
-import com.colegioenrollmentms.domain.Student;
-import com.colegioenrollmentms.infrastructure.output.persistence.entity.StudentEntity;
-import com.colegioenrollmentms.infrastructure.output.persistence.mapper.StudentEntityMapper;
-import com.colegioenrollmentms.infrastructure.output.persistence.repository.interfaces.IR2dbcStudentRepository;
+import com.colegiocursosms.application.port.output.IStudentRepository;
+import com.colegiocursosms.domain.Student;
+import com.colegiocursosms.infrastructure.output.persistence.entity.StudentEntity;
+import com.colegiocursosms.infrastructure.output.persistence.mapper.StudentEntityMapper;
+import com.colegiocursosms.infrastructure.output.persistence.repository.interfaces.IR2dbcStudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;

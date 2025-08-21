@@ -1,9 +1,8 @@
-package com.colegioenrollmentms.infrastructure.input.notification;
+package com.colegiocursosms.infrastructure.input.notification.kafka;
 
-import com.colegioenrollmentms.application.port.input.student.IProcessStudentEventUseCase;
-import com.colegioenrollmentms.infrastructure.input.notification.dto.CourseScheduleEvent;
-import com.colegioenrollmentms.infrastructure.input.notification.dto.StudentCreatedEvent;
-import com.colegioenrollmentms.infrastructure.input.notification.mapper.StudentNotificationMapper;
+import com.colegiocursosms.application.port.input.student.IProcessStudentEventUseCase;
+import com.colegiocursosms.infrastructure.input.notification.dto.StudentCreatedEvent;
+import com.colegiocursosms.infrastructure.input.notification.mapper.StudentNotificationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.kafka.annotation.KafkaListener;
