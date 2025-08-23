@@ -10,5 +10,5 @@ import java.util.List;
 public interface IFindClassroomsUseCase {
 
       Mono<List<Classroom>> findAll();
-
+      Mono<Classroom> findById(String id);
 }

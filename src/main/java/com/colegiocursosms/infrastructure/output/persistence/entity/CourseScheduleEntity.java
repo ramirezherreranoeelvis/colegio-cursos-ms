@@ -32,6 +32,9 @@ public class CourseScheduleEntity extends AuditableEntity implements Persistable
       @Column("id_course")
       private String courseId;
 
+      @Column("id_classroom")
+      private String idClassroom;
+
       @Column("day")
       private DayOfWeek day;
 

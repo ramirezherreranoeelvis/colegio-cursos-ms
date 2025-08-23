@@ -1,8 +1,6 @@
 package com.colegiocursosms.infrastructure.input.rest.dto;
 
 import com.colegiocursosms.domain.enums.DayOfWeek;
-import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -23,6 +21,9 @@ public class ScheduleCourseRequest {
       @NotBlank(message = "El ID del curso no puede estar vacío")
       private String courseId;
 
+      @NotBlank(message = "El ID del aula no puede estar vacío")
+      private String idClassroom;
+
       @NotNull(message = "El día no puede ser nulo")
       private DayOfWeek day;
 
@@ -31,13 +32,6 @@ public class ScheduleCourseRequest {
 
       @NotNull(message = "La hora de fin no puede ser nula")
       private LocalTime endTime;
-
-      @NotNull(message = "El número de aula no puede ser nulo")
-      @Min(value = 1, message = "El número de aula debe ser mayor a cero")
-      private Integer classroomNumber;
-
-      @NotNull(message = "El piso del aula no puede ser nulo")
-      private Integer classroomFloor;
 
       private String portada;
 }

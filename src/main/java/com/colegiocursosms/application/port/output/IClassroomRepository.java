@@ -16,5 +16,7 @@ public interface IClassroomRepository {
 
       Mono<Classroom> findByNumber(Integer number);
 
+      Mono<Classroom> findById(String id);
+
       Mono<List<Classroom>> findAll();
 }

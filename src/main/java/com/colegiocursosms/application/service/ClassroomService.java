@@ -58,4 +58,9 @@ public class ClassroomService implements IFindClassroomsUseCase, IRegisterClassr
                   }));
       }
 
+      @Override
+      public Mono<Classroom> findById(String id) {
+            log.info("Buscando aula por ID: {}", id);
+            return classroomRepository.findById(id);
+      }
 }

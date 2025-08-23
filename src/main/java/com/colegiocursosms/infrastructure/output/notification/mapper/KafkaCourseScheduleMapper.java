@@ -1,6 +1,9 @@
 package com.colegiocursosms.infrastructure.output.notification.mapper;
 
+import com.colegiocursosms.application.port.input.classroom.IFindClassroomsUseCase;
 import com.colegiocursosms.application.port.input.course.IFindCoursesUseCase;
+import com.colegiocursosms.domain.Classroom;
+import com.colegiocursosms.domain.Course;
 import com.colegiocursosms.domain.CourseSchedule;
 import com.colegiocursosms.infrastructure.output.notification.dto.CourseScheduleCreatedEvent;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * Mapper responsable de crear los DTOs para los eventos de Kafka.
- * Puede enriquecer los datos realizando búsquedas a través de los casos de uso.
+ * Enriquece los datos realizando búsquedas a través de los casos de uso.
  */
 @Log4j2
 @Component
@@ -18,33 +21,40 @@ import reactor.core.publisher.Mono;
 public class KafkaCourseScheduleMapper {
 
       private final IFindCoursesUseCase findCourseUseCase;
+      private final IFindClassroomsUseCase findClassroomsUseCase; // <-- Nueva dependencia
 
       /**
-       * Convierte un objeto de dominio CourseSchedule a un DTO de evento CourseScheduleCreatedEvent.
-       * Este proceso enriquece el objeto buscando el nombre del curso correspondiente al courseId.
-       *
-       * @param scheduleDomain El horario de curso del dominio.
-       * @return Un Mono que emite el DTO del evento enriquecido.
+       * Convierte y enriquece un CourseSchedule a un CourseScheduleCreatedEvent.
+       * Busca de forma asíncrona el nombre del curso y los detalles del aula.
        */
       public Mono<CourseScheduleCreatedEvent> toCourseScheduleCreatedEvent(CourseSchedule scheduleDomain) {
-            // 1. Buscamos el curso usando el courseId del horario
-            return findCourseUseCase.findById(scheduleDomain.getCourseId())
-                  // 2. Si no se encuentra, lanzamos un error para detener el proceso
-                  .switchIfEmpty(Mono.error(
-                        new RuntimeException("Inconsistencia de datos: No se encontró el curso con ID " + scheduleDomain.getCourseId())
-                  ))
-                  // 3. Si se encuentra, usamos el curso y el horario para construir el evento
-                  .map(course -> CourseScheduleCreatedEvent.builder()
-                        .id(scheduleDomain.getId())
-                        .courseName(course.getName()) // <-- Dato enriquecido
-                        .day(scheduleDomain.getDay())
-                        .startTime(scheduleDomain.getStartTime())
-                        .endTime(scheduleDomain.getEndTime())
-                        .classroomNumber(scheduleDomain.getClassroomNumber())
-                        .classroomFloor(scheduleDomain.getClassroomFloor())
-                        .enrollmentId(scheduleDomain.getEnrollmentId())
-                        .code(scheduleDomain.getCode())
-                        .build());
+            // 1. Preparamos las dos búsquedas asíncronas que necesitamos
+            Mono<Course> courseMono = findCourseUseCase.findById(scheduleDomain.getCourseId())
+                  .switchIfEmpty(Mono.error(new RuntimeException("Inconsistencia: No se encontró Curso con ID " + scheduleDomain.getCourseId())));
+
+            Mono<Classroom> classroomMono = findClassroomsUseCase.findById(scheduleDomain.getIdClassroom())
+                  .switchIfEmpty(Mono.error(new RuntimeException("Inconsistencia: No se encontró Aula con ID " + scheduleDomain.getIdClassroom())));
+
+            // 2. Usamos Mono.zip para ejecutarlas en paralelo
+            return Mono.zip(courseMono, classroomMono)
+                  // 3. Cuando ambas terminen, mapemos el resultado (una Tupla) al DTO final
+                  .map(tuple -> {
+                        Course course = tuple.getT1();
+                        Classroom classroom = tuple.getT2();
+
+                        // 4. Construimos el evento con los datos de las 3 fuentes
+                        return CourseScheduleCreatedEvent.builder()
+                              .id(scheduleDomain.getId())
+                              .code(scheduleDomain.getCode())
+                              .enrollmentId(scheduleDomain.getEnrollmentId())
+                              .courseName(course.getName())
+                              .classroomNumber(classroom.getNumber())
+                              .classroomFloor(classroom.getFloor())
+                              .day(scheduleDomain.getDay())
+                              .startTime(scheduleDomain.getStartTime())
+                              .endTime(scheduleDomain.getEndTime())
+                              .build();
+                  });
       }
 
 }

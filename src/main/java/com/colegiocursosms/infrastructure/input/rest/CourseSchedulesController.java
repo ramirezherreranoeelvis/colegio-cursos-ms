@@ -31,7 +31,7 @@ public class CourseSchedulesController {
       /**
        * Maneja la petición POST para programar un nuevo horario de curso.
        */
-      @PostMapping("")
+      @PostMapping("/register")
       public Mono<ResponseEntity<CourseScheduleResponse>> scheduleCourse(@Valid @RequestBody ScheduleCourseRequest request) {
             return Mono.just(request)
                   .map(mapper::toDomain)

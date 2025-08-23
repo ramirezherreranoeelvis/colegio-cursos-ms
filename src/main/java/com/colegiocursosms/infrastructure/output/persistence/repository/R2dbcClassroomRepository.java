@@ -54,4 +54,11 @@ public class R2dbcClassroomRepository implements IClassroomRepository {
                   .flatMap(domainMapper::toDomain)
                   .collectList();
       }
+
+      @Override
+      public Mono<Classroom> findById(String id) {
+            return classroomRepository.findById(id)
+                  .flatMap(domainMapper::toDomain);
+      }
+
 }

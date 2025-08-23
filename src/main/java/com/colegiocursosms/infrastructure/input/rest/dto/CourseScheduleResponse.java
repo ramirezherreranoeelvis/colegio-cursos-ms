@@ -16,10 +16,9 @@ public class CourseScheduleResponse {
       private String code;
       private String enrollmentId;
       private String courseId;
+      private String idClassroom;
       private DayOfWeek day;
       private LocalTime startTime;
       private LocalTime endTime;
-      private Integer classroomNumber;
-      private Integer classroomFloor;
       private String portada;
 }

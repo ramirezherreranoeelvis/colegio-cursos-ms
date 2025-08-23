@@ -20,8 +20,7 @@ public class CourseScheduleMapper {
                   .day(request.getDay())
                   .startTime(request.getStartTime())
                   .endTime(request.getEndTime())
-                  .classroomNumber(request.getClassroomNumber())
-                  .classroomFloor(request.getClassroomFloor())
+                  .idClassroom(request.getIdClassroom())
                   .portada(request.getPortada())
                   .build();
       }
@@ -35,8 +34,7 @@ public class CourseScheduleMapper {
                   .day(domain.getDay())
                   .startTime(domain.getStartTime())
                   .endTime(domain.getEndTime())
-                  .classroomNumber(domain.getClassroomNumber())
-                  .classroomFloor(domain.getClassroomFloor())
+                  .idClassroom(domain.getIdClassroom())
                   .portada(domain.getPortada())
                   .build();
       }
