@@ -10,6 +10,7 @@ spring:
     kafka:
         bootstrap-servers: ${KAFKA_HOST:localhost:9092}
         topics:
+            auth-login: welcome-topic
             courses-scheduled: courses-scheduled
             enrollments-created: enrollments.created.v1
             students-created: students.created.v1
