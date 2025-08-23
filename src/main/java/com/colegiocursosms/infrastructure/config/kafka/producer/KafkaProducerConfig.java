@@ -1,4 +1,4 @@
-package com.colegiocursosms.infrastructure.config;
+package com.colegiocursosms.infrastructure.config.kafka.producer;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerConfig;

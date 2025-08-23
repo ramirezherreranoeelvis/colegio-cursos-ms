@@ -1,4 +1,4 @@
-package com.colegiocursosms.infrastructure.config;
+package com.colegiocursosms.infrastructure.config.kafka.consumer;
 
 import com.colegiocursosms.infrastructure.input.notification.dto.EnrollmentCreatedEvent;
 import com.colegiocursosms.infrastructure.input.notification.dto.StudentCreatedEvent;
