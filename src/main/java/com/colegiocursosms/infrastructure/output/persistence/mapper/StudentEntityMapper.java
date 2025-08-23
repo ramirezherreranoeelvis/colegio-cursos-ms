@@ -10,7 +10,6 @@ public class StudentEntityMapper {
       public Student toDomain(StudentEntity entity) {
             return Student.builder()
                   .id(entity.getId())
-                  .dni(entity.getDni())
                   .name(entity.getName())
                   .surnamePaternal(entity.getSurnamePaternal())
                   .surnameMaternal(entity.getSurnameMaternal())
@@ -24,7 +23,6 @@ public class StudentEntityMapper {
             // El ID viene del evento, no se genera aquí
             return StudentEntity.builder()
                   .id(domain.getId())
-                  .dni(domain.getDni())
                   .name(domain.getName())
                   .surnamePaternal(domain.getSurnamePaternal())
                   .surnameMaternal(domain.getSurnameMaternal())

@@ -9,7 +9,6 @@ public class StudentNotificationMapper {
       public Student toDomain(StudentCreatedEvent dto) {
             return Student.builder()
                   .id(dto.getId())
-                  .dni(dto.getDni())
                   .name(dto.getName())
                   .surnamePaternal(dto.getSurnamePaternal())
                   .surnameMaternal(dto.getSurnameMaternal())

@@ -13,4 +13,4 @@ spring:
             courses-scheduled: courses-scheduled
             enrollments-created: enrollments.created.v1
             students-created: students.created.v1
-
+            teacher-created: teacher.created

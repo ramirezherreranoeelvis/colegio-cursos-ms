@@ -22,7 +22,7 @@ public class StudentNotificationConsumer {
             containerFactory = "studentContainerFactory"
       )
       public void listenStudentCreated(StudentCreatedEvent event) {
-            log.info("Evento StudentCreatedEvent recibido para el estudiante con DNI: {}", event.getDni());
+            log.info("Evento StudentCreatedEvent recibido para el estudiante con ID: {}", event.getId());
 
             var studentDomain = studentNotificationMapper.toDomain(event);
 

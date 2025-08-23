@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class Student {
 
       private String id;
-      private String dni;
       private String name;
       private String surnamePaternal;
       private String surnameMaternal;

@@ -22,9 +22,6 @@ public class StudentEntity implements Persistable<String> {
       @Id
       private String id;
 
-      @Column("dni")
-      private String dni;
-
       @Column("name")
       private String name;
 
