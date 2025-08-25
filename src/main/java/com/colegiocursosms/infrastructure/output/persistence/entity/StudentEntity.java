@@ -31,14 +31,14 @@ public class StudentEntity implements Persistable<String> {
       @Column("surname_maternal")
       private String surnameMaternal;
 
-      @Column("father_id")
-      private String fatherId;
+      @Column("father_dni")
+      private Integer fatherDni;
 
-      @Column("mother_id")
-      private String motherId;
+      @Column("mother_dni")
+      private Integer motherDni;
 
-      @Column("representative_id")
-      private String representativeId;
+      @Column("representative_dni")
+      private Integer representativeDni;
 
       @Transient
       private boolean isNew;
@@ -58,4 +58,5 @@ public class StudentEntity implements Persistable<String> {
                   .isNew(true)
                   .build();
       }
+
 }

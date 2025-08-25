@@ -12,9 +12,9 @@ public class StudentNotificationMapper {
                   .name(dto.getName())
                   .surnamePaternal(dto.getSurnamePaternal())
                   .surnameMaternal(dto.getSurnameMaternal())
-                  .fatherId(dto.getFatherId())
-                  .motherId(dto.getMotherId())
-                  .representativeId(dto.getRepresentativeId())
+                  .fatherDni(dto.getFatherDni())
+                  .motherDni(dto.getMotherDni())
+                  .representativeDni(dto.getRepresentativeDni())
                   .build();
       }
 }

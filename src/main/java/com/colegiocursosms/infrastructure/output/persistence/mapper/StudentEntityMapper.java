@@ -13,9 +13,9 @@ public class StudentEntityMapper {
                   .name(entity.getName())
                   .surnamePaternal(entity.getSurnamePaternal())
                   .surnameMaternal(entity.getSurnameMaternal())
-                  .fatherId(entity.getFatherId())
-                  .motherId(entity.getMotherId())
-                  .representativeId(entity.getRepresentativeId())
+                  .fatherDni(entity.getFatherDni())
+                  .motherDni(entity.getMotherDni())
+                  .representativeDni(entity.getRepresentativeDni())
                   .build();
       }
 
@@ -26,9 +26,9 @@ public class StudentEntityMapper {
                   .name(domain.getName())
                   .surnamePaternal(domain.getSurnamePaternal())
                   .surnameMaternal(domain.getSurnameMaternal())
-                  .fatherId(domain.getFatherId())
-                  .motherId(domain.getMotherId())
-                  .representativeId(domain.getRepresentativeId())
+                  .fatherDni(domain.getFatherDni())
+                  .motherDni(domain.getMotherDni())
+                  .representativeDni(domain.getRepresentativeDni())
                   .build();
       }
 

@@ -13,8 +13,8 @@ public class StudentCreatedEvent {
       private String name;
       private String surnamePaternal;
       private String surnameMaternal;
-      private String fatherId;
-      private String motherId;
-      private String representativeId;
+      private Integer fatherDni;
+      private Integer motherDni;
+      private Integer representativeDni;
 
 }
