@@ -16,12 +16,9 @@ import java.util.HashMap;
 public class KafkaAdminConfig {
 
       private final KafkaProperties kafkaProperties;
-      @Value("${spring.kafka.topics.auth-login}")
-      private String welcomeTopic;
-      @Value("${spring.kafka.topics.students-created}")
-      private String studentRegisterTopic;
-      @Value("${spring.kafka.topics.teacher-created}")
-      private String teacherRegisterTopic;
+
+      @Value("${spring.kafka.topics.courses-scheduled}")
+      private String courseScheduledRegisterTopic;
 
       @Bean
       public KafkaAdmin kafkaAdmin() {
@@ -36,17 +33,8 @@ public class KafkaAdminConfig {
       @Bean
       public KafkaAdmin.NewTopics topics() {
             return new KafkaAdmin.NewTopics(
-                  TopicBuilder.name(welcomeTopic)
-                        .partitions(4)
-                        .replicas(2)
-                        .build(),
-                  TopicBuilder.name(studentRegisterTopic)
-                        .partitions(3)
-                        .replicas(2)
-                        .build()
-                  ,
-                  TopicBuilder.name(teacherRegisterTopic)
-                        .partitions(3)
+                  TopicBuilder.name(courseScheduledRegisterTopic)
+                        .partitions(1)
                         .replicas(2)
                         .build()
             );
