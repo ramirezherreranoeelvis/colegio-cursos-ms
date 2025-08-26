@@ -14,4 +14,6 @@ public interface ICourseScheduleTeacherRepository {
       Mono<CourseScheduleTeacher> save(CourseScheduleTeacher assignment);
 
       Mono<List<CourseScheduleTeacher>> findAllByCourseScheduleId(String courseScheduleId);
+
+      Mono<Boolean> existsByCourseScheduleIdAndTeacherId(String scheduleId, String teacherId);
 }

@@ -11,6 +11,7 @@ import com.colegiocursosms.domain.CourseSchedule;
 import com.colegiocursosms.domain.CourseScheduleTeacher;
 import com.colegiocursosms.domain.enums.AuditActionType;
 import com.colegiocursosms.domain.exception.CourseScheduleCodeAlreadyExistsException;
+import com.colegiocursosms.domain.exception.TeacherAlreadyAssignedException;
 import com.colegiocursosms.infrastructure.config.AuditingConfig;
 import com.colegiocursosms.infrastructure.output.notification.kafka.CourseScheduleNotificationProducer;
 import lombok.RequiredArgsConstructor;
@@ -76,21 +77,23 @@ public class CourseScheduleService implements IRegisterCoursesScheduleUseCase, I
 
       @Override
       public Mono<CourseScheduleTeacher> assignTeacher(String scheduleId, String teacherId) {
+            // 1. Validar que el horario y el profesor existan (como antes)
             Mono<Boolean> scheduleExists = scheduleRepository.existsById(scheduleId);
             Mono<Boolean> teacherExists = teacherRepository.existsById(teacherId);
 
             return Mono.zip(scheduleExists, teacherExists)
                   .flatMap(tuple -> {
-                        boolean schExists = tuple.getT1();
-                        boolean tExists = tuple.getT2();
+                        if (!tuple.getT1()) return Mono.error(new RuntimeException("El horario no existe."));
+                        if (!tuple.getT2()) return Mono.error(new RuntimeException("El profesor no existe."));
 
-                        if (!schExists) {
-                              return Mono.error(new RuntimeException("El horario con ID " + scheduleId + " no existe."));
-                        }
-                        if (!tExists) {
-                              return Mono.error(new RuntimeException("El profesor con ID " + teacherId + " no existe."));
-                        }
-
+                        return assignmentRepository.existsByCourseScheduleIdAndTeacherId(scheduleId, teacherId);
+                  })
+                  .filter(Boolean.FALSE::equals)
+                  .switchIfEmpty(Mono.error(new TeacherAlreadyAssignedException(
+                        "El profesor con ID " + teacherId + " ya está asignado a este horario."
+                  )))
+                  .then(Mono.defer(() -> {
+                        // 3. Si todas las validaciones pasan, crear y guardar
                         CourseScheduleTeacher newAssignment = CourseScheduleTeacher.builder()
                               .courseScheduleId(scheduleId)
                               .teacherId(teacherId)
@@ -101,7 +104,7 @@ public class CourseScheduleService implements IRegisterCoursesScheduleUseCase, I
                         AuditingConfig.setAuditor(AuditActionType.ADMIN.getValue());
                         return assignmentRepository.save(newAssignment)
                               .doFinally(signalType -> AuditingConfig.clearAuditor());
-                  });
+                  }));
       }
 
 }

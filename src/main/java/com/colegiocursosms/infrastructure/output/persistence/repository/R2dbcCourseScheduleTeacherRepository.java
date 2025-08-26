@@ -41,4 +41,9 @@ public class R2dbcCourseScheduleTeacherRepository implements ICourseScheduleTeac
                   .map(mapper::toDomain)
                   .collectList();
       }
+
+      @Override
+      public Mono<Boolean> existsByCourseScheduleIdAndTeacherId(String scheduleId, String teacherId) {
+            return r2dbcRepository.existsByCourseScheduleIdAndTeacherId(scheduleId, teacherId);
+      }
 }
