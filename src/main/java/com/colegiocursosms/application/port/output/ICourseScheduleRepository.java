@@ -11,6 +11,8 @@ public interface ICourseScheduleRepository {
 
       Mono<CourseSchedule> findById(String id);
 
+      Mono<Boolean> existsById(String id);
+
       Mono<CourseSchedule> findByCode(String code);
 
       Mono<Boolean> existsByCode(String code);

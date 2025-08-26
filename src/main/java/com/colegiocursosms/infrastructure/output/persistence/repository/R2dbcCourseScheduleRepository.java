@@ -40,6 +40,11 @@ public class R2dbcCourseScheduleRepository implements ICourseScheduleRepository 
       }
 
       @Override
+      public Mono<Boolean> existsById(String id) {
+            return scheduleRepository.existsById(id);
+      }
+
+      @Override
       public Mono<CourseSchedule> findByCode(String code) {
             return scheduleRepository.findByCode(code)
                   .flatMap(domainMapper::toDomain);

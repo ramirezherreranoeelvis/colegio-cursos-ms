@@ -1,9 +1,13 @@
 package com.colegiocursosms.infrastructure.input.rest;
 
+import com.colegiocursosms.application.port.input.courseschedule.IAssignTeacherToScheduleUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IFindCourseSchedulesUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IRegisterCoursesScheduleUseCase;
+import com.colegiocursosms.infrastructure.input.rest.dto.AssignTeacherRequest;
+import com.colegiocursosms.infrastructure.input.rest.dto.AssignmentResponse;
 import com.colegiocursosms.infrastructure.input.rest.dto.CourseScheduleResponse;
 import com.colegiocursosms.infrastructure.input.rest.dto.ScheduleCourseRequest;
+import com.colegiocursosms.infrastructure.input.rest.mapper.AssignmentMapper;
 import com.colegiocursosms.infrastructure.input.rest.mapper.CourseScheduleMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +31,8 @@ public class CourseSchedulesController {
       private final IRegisterCoursesScheduleUseCase registerUseCase;
       private final IFindCourseSchedulesUseCase findUseCase;
       private final CourseScheduleMapper mapper;
+      private final IAssignTeacherToScheduleUseCase assignTeacherUseCase;
+      private final AssignmentMapper assignmentMapper;
 
       /**
        * Maneja la petición POST para programar un nuevo horario de curso.
@@ -61,6 +67,20 @@ public class CourseSchedulesController {
             return findUseCase.findByCode(code)
                   .map(mapper::toResponse)
                   .map(ResponseEntity::ok);
+      }
+
+
+      /**
+       * Maneja la petición POST para asignar un profesor a un horario de curso existente.
+       */
+      @PostMapping("/{scheduleId}/teachers")
+      public Mono<ResponseEntity<AssignmentResponse>> assignTeacherToSchedule(
+            @PathVariable String scheduleId,
+            @Valid @RequestBody AssignTeacherRequest request) {
+
+            return assignTeacherUseCase.assignTeacher(scheduleId, request.getTeacherId())
+                  .map(assignmentMapper::toResponse)
+                  .map(responseDto -> ResponseEntity.status(HttpStatus.CREATED).body(responseDto));
       }
 
 }

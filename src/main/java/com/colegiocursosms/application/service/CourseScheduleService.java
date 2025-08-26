@@ -1,10 +1,14 @@
 package com.colegiocursosms.application.service;
 
+import com.colegiocursosms.application.port.input.courseschedule.IAssignTeacherToScheduleUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IFindCourseSchedulesUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IFindCourseSchedulesUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IRegisterCoursesScheduleUseCase;
 import com.colegiocursosms.application.port.output.ICourseScheduleRepository;
+import com.colegiocursosms.application.port.output.ICourseScheduleTeacherRepository;
+import com.colegiocursosms.application.port.output.ITeacherRepository;
 import com.colegiocursosms.domain.CourseSchedule;
+import com.colegiocursosms.domain.CourseScheduleTeacher;
 import com.colegiocursosms.domain.enums.AuditActionType;
 import com.colegiocursosms.domain.exception.CourseScheduleCodeAlreadyExistsException;
 import com.colegiocursosms.infrastructure.config.AuditingConfig;
@@ -14,15 +18,18 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class CourseScheduleService implements IRegisterCoursesScheduleUseCase, IFindCourseSchedulesUseCase {
+public class CourseScheduleService implements IRegisterCoursesScheduleUseCase, IFindCourseSchedulesUseCase, IAssignTeacherToScheduleUseCase {
 
       private final ICourseScheduleRepository scheduleRepository;
       private final CourseScheduleNotificationProducer notificationProducer;
+      private final ITeacherRepository teacherRepository;
+      private final ICourseScheduleTeacherRepository assignmentRepository;
 
       /**
        * Registra un nuevo horario, lo guarda en la base de datos y notifica
@@ -65,6 +72,36 @@ public class CourseScheduleService implements IRegisterCoursesScheduleUseCase, I
       @Override
       public Mono<List<CourseSchedule>> findAll() {
             return scheduleRepository.findAll();
+      }
+
+      @Override
+      public Mono<CourseScheduleTeacher> assignTeacher(String scheduleId, String teacherId) {
+            Mono<Boolean> scheduleExists = scheduleRepository.existsById(scheduleId);
+            Mono<Boolean> teacherExists = teacherRepository.existsById(teacherId);
+
+            return Mono.zip(scheduleExists, teacherExists)
+                  .flatMap(tuple -> {
+                        boolean schExists = tuple.getT1();
+                        boolean tExists = tuple.getT2();
+
+                        if (!schExists) {
+                              return Mono.error(new RuntimeException("El horario con ID " + scheduleId + " no existe."));
+                        }
+                        if (!tExists) {
+                              return Mono.error(new RuntimeException("El profesor con ID " + teacherId + " no existe."));
+                        }
+
+                        CourseScheduleTeacher newAssignment = CourseScheduleTeacher.builder()
+                              .courseScheduleId(scheduleId)
+                              .teacherId(teacherId)
+                              .startDate(LocalDate.now())
+                              .role("PRINCIPAL")
+                              .build();
+
+                        AuditingConfig.setAuditor(AuditActionType.ADMIN.getValue());
+                        return assignmentRepository.save(newAssignment)
+                              .doFinally(signalType -> AuditingConfig.clearAuditor());
+                  });
       }
 
 }
