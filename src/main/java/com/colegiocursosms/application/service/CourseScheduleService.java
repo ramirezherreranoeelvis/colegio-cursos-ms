@@ -1,15 +1,19 @@
 package com.colegiocursosms.application.service;
 
+import com.colegiocursosms.application.port.input.content.ICreateContentItemUseCase;
+import com.colegiocursosms.application.port.input.content.IFindContentItemsUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IAssignTeacherToScheduleUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IFindCourseSchedulesUseCase;
-import com.colegiocursosms.application.port.input.courseschedule.IFindCourseSchedulesUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IRegisterCoursesScheduleUseCase;
+import com.colegiocursosms.application.port.output.ICourseContentItemRepository;
 import com.colegiocursosms.application.port.output.ICourseScheduleRepository;
 import com.colegiocursosms.application.port.output.ICourseScheduleTeacherRepository;
 import com.colegiocursosms.application.port.output.ITeacherRepository;
+import com.colegiocursosms.domain.CourseContentItem;
 import com.colegiocursosms.domain.CourseSchedule;
 import com.colegiocursosms.domain.CourseScheduleTeacher;
 import com.colegiocursosms.domain.enums.AuditActionType;
+import com.colegiocursosms.domain.enums.ContentType;
 import com.colegiocursosms.domain.exception.CourseScheduleCodeAlreadyExistsException;
 import com.colegiocursosms.domain.exception.TeacherAlreadyAssignedException;
 import com.colegiocursosms.infrastructure.config.AuditingConfig;
@@ -25,12 +29,13 @@ import java.util.List;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class CourseScheduleService implements IRegisterCoursesScheduleUseCase, IFindCourseSchedulesUseCase, IAssignTeacherToScheduleUseCase {
+public class CourseScheduleService implements IRegisterCoursesScheduleUseCase, IFindCourseSchedulesUseCase, IAssignTeacherToScheduleUseCase, ICreateContentItemUseCase, IFindContentItemsUseCase {
 
       private final ICourseScheduleRepository scheduleRepository;
       private final CourseScheduleNotificationProducer notificationProducer;
       private final ITeacherRepository teacherRepository;
       private final ICourseScheduleTeacherRepository assignmentRepository;
+      private final ICourseContentItemRepository contentItemRepository;
 
       /**
        * Registra un nuevo horario, lo guarda en la base de datos y notifica
@@ -107,4 +112,28 @@ public class CourseScheduleService implements IRegisterCoursesScheduleUseCase, I
                   }));
       }
 
+      @Override
+      public Mono<CourseContentItem> createContentItem(CourseContentItem contentItem) {
+            // 1. Validar que el CourseSchedule al que pertenece, exista.
+            return scheduleRepository.existsById(contentItem.getCourseScheduleId())
+                  .filter(Boolean.TRUE::equals)
+                  .switchIfEmpty(Mono.error(new RuntimeException("El CourseSchedule con ID " + contentItem.getCourseScheduleId() + " no existe.")))
+                  .then(Mono.defer(() -> {
+                        // 2. Si tiene un padre, validar que el padre exista y sea una carpeta
+                        if (contentItem.getParentId() != null) {
+                              return contentItemRepository.findById(contentItem.getParentId())
+                                    .switchIfEmpty(Mono.error(new RuntimeException("La carpeta padre con ID " + contentItem.getParentId() + " no existe.")))
+                                    .filter(parent -> parent.getItemType() == ContentType.FOLDER)
+                                    .switchIfEmpty(Mono.error(new RuntimeException("El padre con ID " + contentItem.getParentId() + " no es una carpeta.")))
+                                    .then(contentItemRepository.save(contentItem));
+                        }
+                        // 3. Si no tiene padre, guardar directamente
+                        return contentItemRepository.save(contentItem);
+                  }));
+      }
+
+      @Override
+      public Mono<List<CourseContentItem>> findByScheduleIdAndParentId(String scheduleId, String parentId) {
+            return contentItemRepository.findAllByCourseScheduleIdAndParentId(scheduleId, parentId);
+      }
 }
