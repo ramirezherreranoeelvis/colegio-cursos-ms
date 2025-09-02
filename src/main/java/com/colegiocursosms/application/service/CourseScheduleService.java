@@ -1,25 +1,17 @@
 package com.colegiocursosms.application.service;
 
-import com.colegiocursosms.application.port.input.content.ICreateContentItemUseCase;
-import com.colegiocursosms.application.port.input.content.IFindContentItemsUseCase;
-import com.colegiocursosms.application.port.input.content.IFindContentTreeUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IAssignTeacherToScheduleUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IFindCourseSchedulesUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IRegisterCoursesScheduleUseCase;
-import com.colegiocursosms.application.port.output.ICourseContentItemRepository;
 import com.colegiocursosms.application.port.output.ICourseScheduleRepository;
 import com.colegiocursosms.application.port.output.ICourseScheduleTeacherRepository;
 import com.colegiocursosms.application.port.output.ITeacherRepository;
-import com.colegiocursosms.domain.CourseContentItem;
 import com.colegiocursosms.domain.CourseSchedule;
 import com.colegiocursosms.domain.CourseScheduleTeacher;
 import com.colegiocursosms.domain.enums.AuditActionType;
-import com.colegiocursosms.domain.enums.ContentType;
 import com.colegiocursosms.domain.exception.CourseScheduleCodeAlreadyExistsException;
 import com.colegiocursosms.domain.exception.TeacherAlreadyAssignedException;
 import com.colegiocursosms.infrastructure.config.AuditingConfig;
-import com.colegiocursosms.infrastructure.input.rest.dto.ContentItemResponse;
-import com.colegiocursosms.infrastructure.input.rest.mapper.ContentItemMapper;
 import com.colegiocursosms.infrastructure.output.notification.kafka.CourseScheduleNotificationProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,10 +19,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -38,17 +27,12 @@ import java.util.stream.Collectors;
 public class CourseScheduleService implements
       IRegisterCoursesScheduleUseCase,
       IFindCourseSchedulesUseCase,
-      IAssignTeacherToScheduleUseCase,
-      ICreateContentItemUseCase,
-      IFindContentItemsUseCase,
-      IFindContentTreeUseCase {
+      IAssignTeacherToScheduleUseCase {
 
       private final ICourseScheduleRepository scheduleRepository;
       private final CourseScheduleNotificationProducer notificationProducer;
       private final ITeacherRepository teacherRepository;
       private final ICourseScheduleTeacherRepository assignmentRepository;
-      private final ICourseContentItemRepository contentItemRepository;
-      private final ContentItemMapper contentItemMapper;
 
       /**
        * Registra un nuevo horario, lo guarda en la base de datos y notifica
@@ -123,66 +107,6 @@ public class CourseScheduleService implements
                         return assignmentRepository.save(newAssignment)
                               .doFinally(signalType -> AuditingConfig.clearAuditor());
                   }));
-      }
-
-      @Override
-      public Mono<CourseContentItem> createContentItem(CourseContentItem contentItem) {
-            // 1. Validar que el CourseSchedule al que pertenece, exista.
-            return scheduleRepository.existsById(contentItem.getCourseScheduleId())
-                  .filter(Boolean.TRUE::equals)
-                  .switchIfEmpty(Mono.error(new RuntimeException("El CourseSchedule con ID " + contentItem.getCourseScheduleId() + " no existe.")))
-                  .then(Mono.defer(() -> {
-                        // 2. Si tiene un padre, validar que el padre exista y sea una carpeta
-                        if (contentItem.getParentId() != null) {
-                              return contentItemRepository.findById(contentItem.getParentId())
-                                    .switchIfEmpty(Mono.error(new RuntimeException("La carpeta padre con ID " + contentItem.getParentId() + " no existe.")))
-                                    .filter(parent -> parent.getItemType() == ContentType.FOLDER)
-                                    .switchIfEmpty(Mono.error(new RuntimeException("El padre con ID " + contentItem.getParentId() + " no es una carpeta.")))
-                                    .then(contentItemRepository.save(contentItem));
-                        }
-                        // 3. Si no tiene padre, guardar directamente
-                        return contentItemRepository.save(contentItem);
-                  }));
-      }
-
-      @Override
-      public Mono<List<CourseContentItem>> findByScheduleIdAndParentId(String scheduleId, String parentId) {
-            return contentItemRepository.findAllByCourseScheduleIdAndParentId(scheduleId, parentId);
-      }
-
-      /**
-       * Construye y devuelve una estructura de árbol anidada para el contenido de un curso.
-       */
-      @Override
-      public Mono<List<ContentItemResponse>> findTreeByScheduleId(String scheduleId) {
-            return contentItemRepository.findAllByCourseScheduleId(scheduleId)
-                  .map(domainList -> {
-                        // Obtenemos lista de DTO - ContentItemResponse
-                        var dtoList = domainList.stream()
-                              .map(contentItemMapper::toResponse)
-                              .toList();
-
-                        // 3. AHORA, procesar la lista ya convertida a DTOs para construir el árbol
-                        Map<String, ContentItemResponse> map = dtoList.stream()
-                              .collect(Collectors.toMap(ContentItemResponse::getId, item -> item));
-
-                        List<ContentItemResponse> rootItems = new ArrayList<>();
-
-                        // Logica
-                        dtoList.forEach(contentItemResponse -> {
-                              if (contentItemResponse.getParentId() == null) {
-                                    rootItems.add(contentItemResponse);
-                              } else {
-                                    var parent = map.get(contentItemResponse.getParentId());
-                                    if (parent == null) {
-                                          return;
-                                    }
-                                    parent.getChildren().add(contentItemResponse);
-                              }
-                        });
-
-                        return rootItems;
-                  });
       }
 
 }
