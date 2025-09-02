@@ -13,4 +13,5 @@ public interface ICourseContentItemRepository {
 
       Mono<List<CourseContentItem>> findAllByCourseScheduleIdAndParentId(String scheduleId, String parentId);
 
+      Mono<List<CourseContentItem>> findAllByCourseScheduleId(String scheduleId);
 }

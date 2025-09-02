@@ -41,8 +41,6 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.POST, "/api/classrooms/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/course-schedules", "/api/course-schedules/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/course-schedules/**").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/api/course-schedules/{scheduleId}/contents", "/api/course-schedules/{scheduleId}/contents/**").permitAll()
-                        .pathMatchers(HttpMethod.POST, "/api/course-schedules/{scheduleId}/contents/**").permitAll()
                         .anyExchange().authenticated()
                   )
                   .build();

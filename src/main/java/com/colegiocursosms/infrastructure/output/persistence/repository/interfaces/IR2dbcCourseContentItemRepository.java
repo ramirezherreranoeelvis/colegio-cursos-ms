@@ -14,6 +14,8 @@ public interface IR2dbcCourseContentItemRepository extends ReactiveCrudRepositor
        *
        * @return Un Flux (0 a N elementos) de las entidades encontradas.
        */
-      Flux<CourseContentItemEntity> findAllByCourseScheduleIdAndParentId(String courseScheduleId, String parentId);
+      Flux<CourseContentItemEntity> findAllByCourseScheduleIdAndParentIdOrderByDisplayOrderAsc(String courseScheduleId, String parentId);
+
+      Flux<CourseContentItemEntity> findAllByCourseScheduleIdOrderByDisplayOrderAsc(String courseScheduleId);
 
 }

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -19,5 +21,7 @@ public class ContentItemResponse {
       private Integer displayOrder;
       private String createdBy;
       private Instant createdDate;
+      @Builder.Default
+      private List<ContentItemResponse> children = new ArrayList<>();
 
 }

@@ -37,8 +37,14 @@ public class R2dbcCourseContentItemRepository implements ICourseContentItemRepos
 
       @Override
       public Mono<List<CourseContentItem>> findAllByCourseScheduleIdAndParentId(String scheduleId, String parentId) {
-            return r2dbcRepository.findAllByCourseScheduleIdAndParentId(scheduleId, parentId)
-                  .map(mapper::toDomain) // Convertimos cada entidad al dominio
-                  .collectList();      // Agrupamos todos los resultados en una lista
+            return r2dbcRepository.findAllByCourseScheduleIdAndParentIdOrderByDisplayOrderAsc(scheduleId, parentId)
+                  .map(mapper::toDomain)
+                  .collectList();
+      }
+      @Override
+      public Mono<List<CourseContentItem>> findAllByCourseScheduleId(String scheduleId) {
+            return r2dbcRepository.findAllByCourseScheduleIdOrderByDisplayOrderAsc(scheduleId)
+                  .map(mapper::toDomain)
+                  .collectList();
       }
 }
