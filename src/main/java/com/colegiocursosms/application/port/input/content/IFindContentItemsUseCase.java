@@ -1,12 +1,14 @@
 package com.colegiocursosms.application.port.input.content;
 
-import com.colegiocursosms.domain.CourseContentItem;
+import com.colegiocursosms.infrastructure.input.rest.dto.ContentItemResponse;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 public interface IFindContentItemsUseCase {
 
-      Mono<List<CourseContentItem>> findByScheduleIdAndParentId(String scheduleId, String parentId);
+      Mono<List<ContentItemResponse>> findByScheduleIdAndParentId(String scheduleId, String parentId);
+
+      Mono<List<ContentItemResponse>> findTreeByScheduleId(String scheduleId);
 
 }

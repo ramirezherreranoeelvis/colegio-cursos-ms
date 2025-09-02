@@ -2,7 +2,6 @@ package com.colegiocursosms.application.service;
 
 import com.colegiocursosms.application.port.input.content.ICreateContentItemUseCase;
 import com.colegiocursosms.application.port.input.content.IFindContentItemsUseCase;
-import com.colegiocursosms.application.port.input.content.IFindContentTreeUseCase;
 import com.colegiocursosms.application.port.output.ICourseContentItemRepository;
 import com.colegiocursosms.application.port.output.ICourseScheduleRepository;
 import com.colegiocursosms.domain.CourseContentItem;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class ContentCourseService implements ICreateContentItemUseCase, IFindContentItemsUseCase, IFindContentTreeUseCase {
+public class ContentCourseService implements ICreateContentItemUseCase, IFindContentItemsUseCase {
 
       private final ICourseContentItemRepository contentItemRepository;
       private final ICourseScheduleRepository scheduleRepository;
@@ -47,9 +46,15 @@ public class ContentCourseService implements ICreateContentItemUseCase, IFindCon
       }
 
       @Override
-      public Mono<List<CourseContentItem>> findByScheduleIdAndParentId(String scheduleId, String parentId) {
-            return contentItemRepository.findAllByCourseScheduleIdAndParentId(scheduleId, parentId);
+      public Mono<List<ContentItemResponse>> findByScheduleIdAndParentId(String scheduleId, String parentId) {
+            return contentItemRepository.findAllByCourseScheduleIdAndParentId(scheduleId, parentId)
+                  .map(domainList ->
+                        domainList.stream()
+                              .map(contentItemMapper::toResponse)
+                              .toList()
+                  );
       }
+
 
       @Override
       public Mono<List<ContentItemResponse>> findTreeByScheduleId(String scheduleId) {

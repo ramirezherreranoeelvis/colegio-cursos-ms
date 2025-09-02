@@ -2,7 +2,6 @@ package com.colegiocursosms.infrastructure.input.rest;
 
 import com.colegiocursosms.application.port.input.content.ICreateContentItemUseCase;
 import com.colegiocursosms.application.port.input.content.IFindContentItemsUseCase;
-import com.colegiocursosms.application.port.input.content.IFindContentTreeUseCase;
 import com.colegiocursosms.domain.CourseContentItem;
 import com.colegiocursosms.infrastructure.input.rest.dto.ContentItemResponse;
 import com.colegiocursosms.infrastructure.input.rest.dto.CreateContentItemRequest;
@@ -23,7 +22,6 @@ public class CourseContentController {
 
       private final ICreateContentItemUseCase createContentItemUseCase;
       private final IFindContentItemsUseCase findContentItemsUseCase;
-      private final IFindContentTreeUseCase findContentTreeUseCase;
       private final ContentItemMapper mapper;
 
       @PostMapping("")
@@ -45,10 +43,6 @@ public class CourseContentController {
             @RequestParam(required = false) String parentId) {
 
             return findContentItemsUseCase.findByScheduleIdAndParentId(scheduleId, parentId)
-                  .map(itemList -> itemList.stream()
-                        .map(mapper::toResponse)
-                        .toList()
-                  )
                   .map(ResponseEntity::ok);
       }
 
@@ -56,8 +50,9 @@ public class CourseContentController {
       public Mono<ResponseEntity<List<ContentItemResponse>>> findContentTree(
             @PathVariable String scheduleId) {
 
-            return findContentTreeUseCase.findTreeByScheduleId(scheduleId)
+            return findContentItemsUseCase.findTreeByScheduleId(scheduleId)
                   .map(ResponseEntity::ok);
       }
+
 
 }
