@@ -3,6 +3,7 @@ package com.colegiocursosms.infrastructure.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -18,6 +19,7 @@ import java.util.List;
 @Configuration
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
+@Profile("!dev")
 public class SecurityConfig {
 
       @Bean
@@ -41,7 +43,10 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.POST, "/api/classrooms/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/course-schedules", "/api/course-schedules/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/course-schedules/**").permitAll()
-                        .anyExchange().authenticated()
+                        .pathMatchers(HttpMethod.GET, "/api/contents", "/api/contents/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/contents/**").permitAll()
+                        .anyExchange().permitAll()
+//                        .authenticated()
                   )
                   .build();
       }

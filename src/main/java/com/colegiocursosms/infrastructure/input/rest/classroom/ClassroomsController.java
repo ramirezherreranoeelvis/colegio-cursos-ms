@@ -1,10 +1,10 @@
-package com.colegiocursosms.infrastructure.input.rest;
+package com.colegiocursosms.infrastructure.input.rest.classroom;
 
 import com.colegiocursosms.application.port.input.classroom.IFindClassroomsUseCase;
 import com.colegiocursosms.application.port.input.classroom.IRegisterClassroomUseCase;
-import com.colegiocursosms.infrastructure.input.rest.dto.ClassroomResponse;
-import com.colegiocursosms.infrastructure.input.rest.dto.RegisterClassroomRequest;
-import com.colegiocursosms.infrastructure.input.rest.mapper.ClassroomMapper; // <-- Import cambiado
+import com.colegiocursosms.infrastructure.input.rest.classroom.dto.ClassroomResponse;
+import com.colegiocursosms.infrastructure.input.rest.classroom.dto.RegisterClassroomRequest;
+import com.colegiocursosms.infrastructure.input.rest.classroom.mapper.ClassroomMapper; // <-- Import cambiado
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

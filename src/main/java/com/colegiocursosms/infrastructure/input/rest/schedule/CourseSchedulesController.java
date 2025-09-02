@@ -1,14 +1,14 @@
-package com.colegiocursosms.infrastructure.input.rest;
+package com.colegiocursosms.infrastructure.input.rest.schedule;
 
 import com.colegiocursosms.application.port.input.courseschedule.IAssignTeacherToScheduleUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IFindCourseSchedulesUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IScheduleCourseUseCase;
-import com.colegiocursosms.infrastructure.input.rest.dto.AssignTeacherRequest;
-import com.colegiocursosms.infrastructure.input.rest.dto.AssignmentResponse;
-import com.colegiocursosms.infrastructure.input.rest.dto.CourseScheduleResponse;
-import com.colegiocursosms.infrastructure.input.rest.dto.ScheduleCourseRequest;
-import com.colegiocursosms.infrastructure.input.rest.mapper.AssignmentMapper;
-import com.colegiocursosms.infrastructure.input.rest.mapper.CourseScheduleMapper;
+import com.colegiocursosms.infrastructure.input.rest.schedule.dto.AssignTeacherRequest;
+import com.colegiocursosms.infrastructure.input.rest.schedule.dto.AssignmentResponse;
+import com.colegiocursosms.infrastructure.input.rest.schedule.dto.CourseScheduleResponse;
+import com.colegiocursosms.infrastructure.input.rest.schedule.dto.ScheduleCourseRequest;
+import com.colegiocursosms.infrastructure.input.rest.schedule.mapper.AssignmentMapper;
+import com.colegiocursosms.infrastructure.input.rest.schedule.mapper.CourseScheduleMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

@@ -1,13 +1,13 @@
-package com.colegiocursosms.infrastructure.input.rest;
+package com.colegiocursosms.infrastructure.input.rest.content;
 
 import com.colegiocursosms.application.port.input.content.ICreateContentItemUseCase;
 import com.colegiocursosms.application.port.input.content.IFindContentItemsUseCase;
 import com.colegiocursosms.application.port.input.content.IUpdateContentItemUseCase;
 import com.colegiocursosms.domain.CourseContentItem;
-import com.colegiocursosms.infrastructure.input.rest.dto.ContentItemResponse;
-import com.colegiocursosms.infrastructure.input.rest.dto.CreateContentItemRequest;
-import com.colegiocursosms.infrastructure.input.rest.dto.UpdateContentItemRequest;
-import com.colegiocursosms.infrastructure.input.rest.mapper.ContentItemMapper;
+import com.colegiocursosms.infrastructure.input.rest.content.dto.ContentItemResponse;
+import com.colegiocursosms.infrastructure.input.rest.content.dto.CreateContentItemRequest;
+import com.colegiocursosms.infrastructure.input.rest.content.dto.UpdateContentItemRequest;
+import com.colegiocursosms.infrastructure.input.rest.content.mapper.ContentItemMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

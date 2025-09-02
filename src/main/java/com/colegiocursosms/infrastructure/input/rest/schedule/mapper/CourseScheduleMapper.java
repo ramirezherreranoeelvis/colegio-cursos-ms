@@ -1,8 +1,8 @@
-package com.colegiocursosms.infrastructure.input.rest.mapper;
+package com.colegiocursosms.infrastructure.input.rest.schedule.mapper;
 
 import com.colegiocursosms.domain.CourseSchedule;
-import com.colegiocursosms.infrastructure.input.rest.dto.CourseScheduleResponse;
-import com.colegiocursosms.infrastructure.input.rest.dto.ScheduleCourseRequest;
+import com.colegiocursosms.infrastructure.input.rest.schedule.dto.CourseScheduleResponse;
+import com.colegiocursosms.infrastructure.input.rest.schedule.dto.ScheduleCourseRequest;
 import org.springframework.stereotype.Component;
 
 /**

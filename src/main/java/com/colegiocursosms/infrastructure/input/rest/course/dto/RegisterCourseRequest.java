@@ -1,4 +1,4 @@
-package com.colegiocursosms.infrastructure.input.rest.dto;
+package com.colegiocursosms.infrastructure.input.rest.course.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

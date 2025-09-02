@@ -1,6 +1,6 @@
 package com.colegiocursosms.application.port.input.content;
 
-import com.colegiocursosms.infrastructure.input.rest.dto.ContentItemResponse;
+import com.colegiocursosms.infrastructure.input.rest.content.dto.ContentItemResponse;
 import reactor.core.publisher.Mono;
 
 import java.util.List;

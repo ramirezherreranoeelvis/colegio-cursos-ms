@@ -1,13 +1,10 @@
-package com.colegiocursosms.infrastructure.input.rest.dto;
+package com.colegiocursosms.infrastructure.input.rest.content.dto;
 
 import com.colegiocursosms.domain.enums.ContentType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Builder

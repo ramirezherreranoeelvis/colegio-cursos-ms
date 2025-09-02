@@ -1,9 +1,9 @@
-package com.colegiocursosms.infrastructure.input.rest.mapper;
+package com.colegiocursosms.infrastructure.input.rest.content.mapper;
 
 import com.colegiocursosms.domain.CourseContentItem;
-import com.colegiocursosms.infrastructure.input.rest.dto.ContentItemResponse;
-import com.colegiocursosms.infrastructure.input.rest.dto.CreateContentItemRequest;
-import com.colegiocursosms.infrastructure.input.rest.dto.UpdateContentItemRequest;
+import com.colegiocursosms.infrastructure.input.rest.content.dto.ContentItemResponse;
+import com.colegiocursosms.infrastructure.input.rest.content.dto.CreateContentItemRequest;
+import com.colegiocursosms.infrastructure.input.rest.content.dto.UpdateContentItemRequest;
 import org.springframework.stereotype.Component;
 
 @Component

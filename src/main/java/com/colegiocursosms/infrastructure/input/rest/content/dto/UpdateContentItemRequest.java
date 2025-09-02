@@ -1,4 +1,4 @@
-package com.colegiocursosms.infrastructure.input.rest.dto;
+package com.colegiocursosms.infrastructure.input.rest.content.dto;
 
 import com.colegiocursosms.domain.enums.ContentType;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.colegiocursosms.infrastructure.input.rest.dto;
+package com.colegiocursosms.infrastructure.input.rest.schedule.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

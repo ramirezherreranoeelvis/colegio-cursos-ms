@@ -1,4 +1,4 @@
-package com.colegiocursosms.infrastructure.input.rest.dto;
+package com.colegiocursosms.infrastructure.input.rest.schedule.dto;
 
 import lombok.Builder;
 import lombok.Data;
