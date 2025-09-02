@@ -2,6 +2,7 @@ package com.colegiocursosms.application.service;
 
 import com.colegiocursosms.application.port.input.content.ICreateContentItemUseCase;
 import com.colegiocursosms.application.port.input.content.IFindContentItemsUseCase;
+import com.colegiocursosms.application.port.input.content.IUpdateContentItemUseCase;
 import com.colegiocursosms.application.port.output.ICourseContentItemRepository;
 import com.colegiocursosms.application.port.output.ICourseScheduleRepository;
 import com.colegiocursosms.domain.CourseContentItem;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class ContentCourseService implements ICreateContentItemUseCase, IFindContentItemsUseCase {
+public class ContentCourseService implements ICreateContentItemUseCase, IFindContentItemsUseCase, IUpdateContentItemUseCase {
 
       private final ICourseContentItemRepository contentItemRepository;
       private final ICourseScheduleRepository scheduleRepository;
@@ -86,6 +87,12 @@ public class ContentCourseService implements ICreateContentItemUseCase, IFindCon
                   }
             });
             return rootItems;
+      }
+
+
+      @Override
+      public Mono<CourseContentItem> updateContentItem(CourseContentItem contentItem) {
+            return null;
       }
 
 }

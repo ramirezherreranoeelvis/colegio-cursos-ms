@@ -2,9 +2,11 @@ package com.colegiocursosms.infrastructure.input.rest;
 
 import com.colegiocursosms.application.port.input.content.ICreateContentItemUseCase;
 import com.colegiocursosms.application.port.input.content.IFindContentItemsUseCase;
+import com.colegiocursosms.application.port.input.content.IUpdateContentItemUseCase;
 import com.colegiocursosms.domain.CourseContentItem;
 import com.colegiocursosms.infrastructure.input.rest.dto.ContentItemResponse;
 import com.colegiocursosms.infrastructure.input.rest.dto.CreateContentItemRequest;
+import com.colegiocursosms.infrastructure.input.rest.dto.UpdateContentItemRequest;
 import com.colegiocursosms.infrastructure.input.rest.mapper.ContentItemMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class CourseContentController {
 
       private final ICreateContentItemUseCase createContentItemUseCase;
       private final IFindContentItemsUseCase findContentItemsUseCase;
+      private final IUpdateContentItemUseCase updateContentItemUseCase;
       private final ContentItemMapper mapper;
 
       @PostMapping("")
@@ -54,5 +57,17 @@ public class CourseContentController {
                   .map(ResponseEntity::ok);
       }
 
+      @PatchMapping("/{contentId}")
+      public Mono<ResponseEntity<ContentItemResponse>> updateContentItem(
+            @PathVariable String scheduleId,
+            @PathVariable String contentId,
+            @Valid @RequestBody UpdateContentItemRequest request) {
 
+            CourseContentItem updatedItem = mapper.toDomain(request);
+            updatedItem.setId(contentId);
+
+            return updateContentItemUseCase.updateContentItem(updatedItem)
+                  .map(mapper::toResponse)
+                  .map(ResponseEntity::ok);
+      }
 }

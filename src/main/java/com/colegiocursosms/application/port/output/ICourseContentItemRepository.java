@@ -9,6 +9,8 @@ public interface ICourseContentItemRepository {
 
       Mono<CourseContentItem> save(CourseContentItem item);
 
+      Mono<CourseContentItem> update(CourseContentItem item);
+
       Mono<CourseContentItem> findById(String id);
 
       Mono<List<CourseContentItem>> findAllByCourseScheduleIdAndParentId(String scheduleId, String parentId);

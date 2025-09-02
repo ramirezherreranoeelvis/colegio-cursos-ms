@@ -29,6 +29,17 @@ public class R2dbcCourseContentItemRepository implements ICourseContentItemRepos
                   .map(mapper::toDomain);
       }
 
+      /**
+       * Actualiza un item de contenido existente.
+       */
+      @Override
+      public Mono<CourseContentItem> update(CourseContentItem item) {
+            var entity = mapper.toEntity(item);
+            // No se llama a markNew(), para que Spring Data haga un UPDATE
+            return r2dbcRepository.save(entity)
+                  .map(mapper::toDomain);
+      }
+
       @Override
       public Mono<CourseContentItem> findById(String id) {
             return r2dbcRepository.findById(id)
@@ -41,10 +52,12 @@ public class R2dbcCourseContentItemRepository implements ICourseContentItemRepos
                   .map(mapper::toDomain)
                   .collectList();
       }
+
       @Override
       public Mono<List<CourseContentItem>> findAllByCourseScheduleId(String scheduleId) {
             return r2dbcRepository.findAllByCourseScheduleIdOrderByDisplayOrderAsc(scheduleId)
                   .map(mapper::toDomain)
                   .collectList();
       }
+
 }
