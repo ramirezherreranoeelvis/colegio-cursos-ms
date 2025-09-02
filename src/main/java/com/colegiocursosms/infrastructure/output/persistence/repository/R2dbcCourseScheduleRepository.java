@@ -17,7 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class R2dbcCourseScheduleRepository implements ICourseScheduleRepository {
 
-      private final IR2dbcCourseScheduleRepository scheduleRepository;
+      private final IR2dbcCourseScheduleRepository r2dbcRepository;
       private final EntityMapper entityMapper;
       private final DomainMapper domainMapper;
 
@@ -29,35 +29,35 @@ public class R2dbcCourseScheduleRepository implements ICourseScheduleRepository 
             }
             var scheduleEntity = entityMapper.toEntity(scheduleDomain);
             scheduleEntity.markNew(); // Forzar un INSERT
-            return scheduleRepository.save(scheduleEntity)
+            return r2dbcRepository.save(scheduleEntity)
                   .flatMap(domainMapper::toDomain);
       }
 
       @Override
       public Mono<CourseSchedule> findById(String id) {
-            return scheduleRepository.findById(id)
+            return r2dbcRepository.findById(id)
                   .flatMap(domainMapper::toDomain);
       }
 
       @Override
       public Mono<Boolean> existsById(String id) {
-            return scheduleRepository.existsById(id);
+            return r2dbcRepository.existsById(id);
       }
 
       @Override
       public Mono<CourseSchedule> findByCode(String code) {
-            return scheduleRepository.findByCode(code)
+            return r2dbcRepository.findByCode(code)
                   .flatMap(domainMapper::toDomain);
       }
 
       @Override
       public Mono<Boolean> existsByCode(String code) {
-            return scheduleRepository.existsByCode(code);
+            return r2dbcRepository.existsByCode(code);
       }
 
       @Override
       public Mono<List<CourseSchedule>> findAll() {
-            return scheduleRepository.findAll()
+            return r2dbcRepository.findAll()
                   .flatMap(domainMapper::toDomain)
                   .collectList();
       }

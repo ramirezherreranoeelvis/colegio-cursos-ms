@@ -2,7 +2,7 @@ package com.colegiocursosms.infrastructure.input.rest;
 
 import com.colegiocursosms.application.port.input.courseschedule.IAssignTeacherToScheduleUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IFindCourseSchedulesUseCase;
-import com.colegiocursosms.application.port.input.courseschedule.IRegisterCoursesScheduleUseCase;
+import com.colegiocursosms.application.port.input.courseschedule.IScheduleCourseUseCase;
 import com.colegiocursosms.infrastructure.input.rest.dto.AssignTeacherRequest;
 import com.colegiocursosms.infrastructure.input.rest.dto.AssignmentResponse;
 import com.colegiocursosms.infrastructure.input.rest.dto.CourseScheduleResponse;
@@ -28,11 +28,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CourseSchedulesController {
 
-      private final IRegisterCoursesScheduleUseCase registerUseCase;
       private final IFindCourseSchedulesUseCase findUseCase;
       private final CourseScheduleMapper mapper;
       private final IAssignTeacherToScheduleUseCase assignTeacherUseCase;
       private final AssignmentMapper assignmentMapper;
+      private final IScheduleCourseUseCase scheduleCourseUseCase;
 
       /**
        * Maneja la petición POST para programar un nuevo horario de curso.
@@ -41,7 +41,7 @@ public class CourseSchedulesController {
       public Mono<ResponseEntity<CourseScheduleResponse>> scheduleCourse(@Valid @RequestBody ScheduleCourseRequest request) {
             return Mono.just(request)
                   .map(mapper::toDomain)
-                  .flatMap(registerUseCase::registerCourse)
+                  .flatMap(scheduleCourseUseCase::registerCourse)
                   .map(mapper::toResponse)
                   .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response));
       }

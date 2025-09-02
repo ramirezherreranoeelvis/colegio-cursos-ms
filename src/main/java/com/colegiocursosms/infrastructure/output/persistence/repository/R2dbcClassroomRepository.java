@@ -21,7 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class R2dbcClassroomRepository implements IClassroomRepository {
 
-      private final IR2dbcClassroomRepository classroomRepository;
+      private final IR2dbcClassroomRepository r2dbcRepository;
       private final EntityMapper entityMapper;
       private final DomainMapper domainMapper;
 
@@ -33,31 +33,31 @@ public class R2dbcClassroomRepository implements IClassroomRepository {
             }
             var classroomEntity = entityMapper.toEntity(classroomDomain);
             classroomEntity.markNew();
-            return classroomRepository.save(classroomEntity)
+            return r2dbcRepository.save(classroomEntity)
                   .flatMap(domainMapper::toDomain);
       }
 
       @Override
       public Mono<Boolean> existsByNumber(Integer number) {
-            return classroomRepository.existsByNumber(number);
+            return r2dbcRepository.existsByNumber(number);
       }
 
       @Override
       public Mono<Classroom> findByNumber(Integer number) {
-            return classroomRepository.findByNumber(number)
+            return r2dbcRepository.findByNumber(number)
                   .flatMap(domainMapper::toDomain);
       }
 
       @Override
       public Mono<List<Classroom>> findAll() {
-            return classroomRepository.findAll()
+            return r2dbcRepository.findAll()
                   .flatMap(domainMapper::toDomain)
                   .collectList();
       }
 
       @Override
       public Mono<Classroom> findById(String id) {
-            return classroomRepository.findById(id)
+            return r2dbcRepository.findById(id)
                   .flatMap(domainMapper::toDomain);
       }
 

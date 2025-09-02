@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class R2dbcCoursesRepository implements ICourseRepository {
 
-      private final IR2dbcCoursesRepository coursesRepository;
+      private final IR2dbcCoursesRepository r2dbcRepository;
       private final EntityMapper entityMapper;
       private final DomainMapper domainMapper;
 
@@ -31,26 +31,26 @@ public class R2dbcCoursesRepository implements ICourseRepository {
             }
             var courseEntity = entityMapper.toEntity(courseDomain);
             courseEntity.markNew();
-            return coursesRepository.save(courseEntity)
+            return r2dbcRepository.save(courseEntity)
                   .flatMap(domainMapper::toDomain);
       }
 
       @Override
       @Transactional
       public Mono<Course> findByName(String name) {
-            return coursesRepository.findByName(name)
+            return r2dbcRepository.findByName(name)
                   .flatMap(domainMapper::toDomain);
       }
 
       @Override
       @Transactional
       public Mono<Boolean> existsByName(String name) {
-            return coursesRepository.existsByName(name);
+            return r2dbcRepository.existsByName(name);
       }
 
       @Override
       public Mono<List<Course>> findAll() {
-            return coursesRepository.findAll()
+            return r2dbcRepository.findAll()
                   .flatMap(domainMapper::toDomain)
                   .collectList();
       }
@@ -61,7 +61,7 @@ public class R2dbcCoursesRepository implements ICourseRepository {
       @Override
       @Transactional
       public Mono<Course> findById(String id) {
-            return coursesRepository.findById(id)
+            return r2dbcRepository.findById(id)
                   .flatMap(domainMapper::toDomain);
       }
 

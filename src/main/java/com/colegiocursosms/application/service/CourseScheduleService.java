@@ -2,7 +2,7 @@ package com.colegiocursosms.application.service;
 
 import com.colegiocursosms.application.port.input.courseschedule.IAssignTeacherToScheduleUseCase;
 import com.colegiocursosms.application.port.input.courseschedule.IFindCourseSchedulesUseCase;
-import com.colegiocursosms.application.port.input.courseschedule.IRegisterCoursesScheduleUseCase;
+import com.colegiocursosms.application.port.input.courseschedule.IScheduleCourseUseCase;
 import com.colegiocursosms.application.port.output.ICourseScheduleRepository;
 import com.colegiocursosms.application.port.output.ICourseScheduleTeacherRepository;
 import com.colegiocursosms.application.port.output.ITeacherRepository;
@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CourseScheduleService implements
-      IRegisterCoursesScheduleUseCase,
+      IScheduleCourseUseCase,
       IFindCourseSchedulesUseCase,
       IAssignTeacherToScheduleUseCase {
 
