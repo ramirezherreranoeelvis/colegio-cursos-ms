@@ -17,3 +17,5 @@ spring:
             enrollments-created: enrollments.created.v1
             students-created: students.created.v1
             teacher-created: teacher.created
+            student-enrolled: student.enrolled.v1
+
