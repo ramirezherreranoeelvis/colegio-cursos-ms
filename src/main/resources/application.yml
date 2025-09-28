@@ -11,6 +11,8 @@ spring:
         password: a1s2d3f4g5h6
     kafka:
         bootstrap-servers: ${KAFKA_HOST:localhost:9092}
+        consumer:
+            group-id: "courses-ms-group"
         topics:
             auth-login: welcome-topic
             courses-scheduled: courses-scheduled

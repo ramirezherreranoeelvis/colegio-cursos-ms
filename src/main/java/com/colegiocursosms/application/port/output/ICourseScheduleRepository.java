@@ -19,4 +19,10 @@ public interface ICourseScheduleRepository {
 
       Mono<List<CourseSchedule>> findAll();
 
+      /**
+       * Busca todos los horarios de curso asociados a un ID de matrícula específico.
+       * @param enrollmentId El ID de la matrícula.
+       * @return Un Mono que emite una lista de los horarios encontrados.
+       */
+      Mono<List<CourseSchedule>> findAllByEnrollmentId(String enrollmentId);
 }

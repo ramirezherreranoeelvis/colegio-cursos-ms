@@ -62,4 +62,11 @@ public class R2dbcCourseScheduleRepository implements ICourseScheduleRepository 
                   .collectList();
       }
 
+      @Override
+      public Mono<List<CourseSchedule>> findAllByEnrollmentId(String enrollmentId) {
+            return r2dbcRepository.findAllByEnrollmentId(enrollmentId)
+                  .flatMap(domainMapper::toDomain)
+                  .collectList();
+      }
+
 }

@@ -4,6 +4,7 @@ import com.colegiocursosms.infrastructure.output.persistence.entity.CourseSchedu
 import io.r2dbc.spi.Result;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
@@ -13,5 +14,7 @@ public interface IR2dbcCourseScheduleRepository extends ReactiveCrudRepository<C
 
 
       Mono<CourseScheduleEntity> findByCode(String code);
+
+      Flux<CourseScheduleEntity> findAllByEnrollmentId(String enrollmentId);
 
 }
